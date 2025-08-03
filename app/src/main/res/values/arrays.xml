@@ -9,4 +9,22 @@
         <item>reply</item>
         <item>reply_all</item>
     </string-array>
+
+
+    <string-array name="sync_values">
+        <item>30</item>
+        <item>60</item>
+        <item>180</item>
+        <item>300</item>
+    </string-array>
+    <string-array name="sync_names">
+        <item>30 сек.</item>
+        <item>1 мин.</item>
+        <item>3 мин.</item>
+        <item>5 мин.</item>
+    </string-array>
+
+
+
+
 </resources>

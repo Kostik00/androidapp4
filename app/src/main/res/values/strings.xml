@@ -1,10 +1,84 @@
 <resources>
-    <string name="app_name">iskaskadapp</string>
+    <string name="app_name">ИС КАСКАД v2</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_title">ИС КАСКАД</string>
+    <string name="nav_header_subtitle">info@iskaskad.ru</string>
     <string name="nav_header_desc">Navigation header</string>
+
+    <string name="menu_findpasp">Контроль состояния ДСЕ</string>
+    <string name="menu_mtask">Учет перемещений ДСЕ</string>
+    <string name="menu_sklad">Складской учет (хранение)</string>
+    <string name="menu_skladom">Выдача ОМ</string>
+
+    <string name="button_connect">Подключиться</string>
+
+    <string name="menu_settings">Настройки приложения</string>
+    <string name="menu_chassword">Сменить пользователя</string>
+    <string name="menu_exitprg">Выйти из программы</string>
+
+    <string name="namePredm">Наименование материала</string>
+    <string name="sortam">Сортамент</string>
+    <!--   <string name="codIdMat">Маркировка</string>  -->
+    <string name="StrMark">Маркировка</string>
+    <string name="nSert">Номер сертификата</string>
+    <string name="codPlavka">Плавка</string>
+    <string name="party">Партия</string>
+
+    <string name="search_title">Поиск</string>
+
+    <string name="RegN">Рег. № серт.</string>
+    <string name="Key_Id_Mat"># Уч.М.</string>
+    <string name="Key_Predm"># Материала</string>
+
+
+    <string name="pasp_tab_info">Инфо</string>
+    <string name="pasp_tab_mk">Маршрут</string>
+    <string name="pasp_tab_history">Движение</string>
+
+
+    <string name="FIOZ">ФИО подавшего заявку</string>
+    <string name="MDTSm">Масса всех деталей</string>
+    <string name="MDt">Масса 1 детали</string>
+    <string name="NamePredm">Материал</string>
+    <string name="Sortam">Сортамент</string>
+    <string name="Marka">Марка</string>
+    <string name="StoragePlace">Место хранения</string>
+
+
+    <string name="AdvSearch">Расширенный поиск</string>
+
+    <!-- Preference Titles -->
+    <!-- Connection Preferences -->
+
+    <string name="url_header">Настройки подключения</string>
+    <string name="url_title">Строка подключения</string>
+    <string name="url_key">URL</string>
+    <string name="url_default">http://192.168.64.5/cgi-bin/001/</string>
+
+    <!-- Sync Preferences -->
+
+    <string name="sync_header">Параметры автообновления</string>
+    <string name="sync_title">Периодичность синхронизации</string>
+    <string name="camscan_header">Программный сканер</string>
+
+    <string name="prgscan_key">prgscan</string>
+    <string name="prgscan_title">Включить прогр. сканер</string>
+
+
+    <string name="sync_key">syncperiod</string>
+    <string name="sync_default">60</string>
+
+
+    <string name="SertInfoNumSert">%1$s от %2$s</string>
+    <string name="KeyIDMatKeyPredm">%1$S/%2$S</string>
+    <string name="DSECodPredmNamePredm">%1$S - %2$S</string>
+    <string name="NSertDate">%1$S от %2$S</string>
+
+    <string name="Num_GrZap">Номер задания на раскрой</string>
+    <string name="RegNSertTXT">Список рег. №</string>
+
+
     <string name="action_settings">Settings</string>
 
     <string name="menu_home">Home</string>
@@ -12,17 +86,20 @@
     <string name="menu_slideshow">Slideshow</string>
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
-    <string name="sync_header">Sync</string>
 
     <!-- Messages Preferences -->
     <string name="signature_title">Your signature</string>
     <string name="reply_title">Default reply action</string>
 
     <!-- Sync Preferences -->
-    <string name="sync_title">Sync email periodically</string>
     <string name="attachment_title">Download incoming attachments</string>
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="Settings">Настройки</string>
+
+    <string name="nav_connection">Подключеие</string>
+    <string name="nav_adprop">Дополнительно</string>
+
+
 </resources>
