@@ -4,7 +4,7 @@ import org.json.JSONObject
 import java.io.Serializable
 
 
-class SkladGrZapInfo(jsonfrom: JSONObject, public var SearchStr:String) : MasterDTO(
+class SkladGrZapInfo(jsonfrom: JSONObject, var SearchStr:String) : MasterDTO(
         jsonfrom,
         mutableListOf(
                 ParamInfo("Key_GrZap", ParamType.PT_INT),
