@@ -1,7 +1,6 @@
 package ru.iskaskad.iskaskadapp
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
@@ -13,14 +12,14 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import com.google.android.material.navigation.NavigationView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.drawerlayout.widget.DrawerLayout
-import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.navigation.NavigationView
 import ru.iskaskad.iskaskadapp.databinding.ActivityMainBinding
 import ru.iskaskad.iskaskadapp.ISKaskadAPP.Companion as GlobalApp
 
