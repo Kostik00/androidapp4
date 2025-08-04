@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        android:contentDescription="FAB Button"
+        android:contentDescription="@string/scan_button"
         app:srcCompat="@drawable/ic_baseline_scanner_24" />
 
     <ProgressBar
@@ -50,7 +50,7 @@
         android:layout_gravity="bottom"
         android:background="#F38787"
         android:gravity="center"
-        android:text="Ошибка передачи данных"
+        android:text="@string/TransferError"
         android:visibility="visible" />
 
 

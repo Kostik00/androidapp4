@@ -100,6 +100,8 @@
 
     <string name="nav_connection">Подключеие</string>
     <string name="nav_adprop">Дополнительно</string>
+    <string name="TransferError">Ошибка передачи данных</string>
+    <string name="scan_button">Запуск программного сканера</string>
 
 
 </resources>
