@@ -1,8 +1,11 @@
 package ru.iskaskad.iskaskadapp
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import androidx.activity.viewModels
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -12,6 +15,7 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import ru.iskaskad.iskaskadapp.databinding.ActivityMainBinding
+import ru.iskaskad.iskaskadapp.ISKaskadAPP.Companion as GlobalApp
 
 class MainActivity : AppCompatActivity() {
 
@@ -45,6 +49,50 @@ class MainActivity : AppCompatActivity() {
 //                .setAction("Action", null)
 //                .setAnchorView(R.id.fab).show()
         }
+
+
+        val AppVM: IsKaskadAPPVM by viewModels()
+
+
+        AppVM.RunProgress.observe(this, {it?.let {
+            if (it <= -1)
+            {
+                binding.appBarMain.progressBar.visibility = View.GONE
+            }
+            else {
+                binding.appBarMain.progressBar.progress = it
+                binding.appBarMain.progressBar.visibility = View.VISIBLE
+            }
+        }
+        })
+
+        AppVM.ErrorText.observe(this, {
+            it?.let {
+                if (it == "")
+                    binding.appBarMain.TransferError.visibility = View.GONE
+                else
+                {
+                    binding.appBarMain.TransferError.text = it
+                    binding.appBarMain.TransferError.visibility = View.VISIBLE
+                }
+            }
+
+        })
+        AppVM.ErrorMessage.observe(this, {
+            it?.let {
+                if (it != "")
+                {
+                    with(AlertDialog.Builder(this)) {
+                        setTitle("Произошла ошибка")
+                        setMessage(it)
+                        show()
+                    }
+                    AppVM.ErrorMessage.postValue("")
+                }
+            }
+
+        })
+
 
 
 
