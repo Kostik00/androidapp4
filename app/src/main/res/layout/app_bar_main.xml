@@ -29,7 +29,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:contentDescription="@string/scan_button"
-        app:srcCompat="@drawable/ic_baseline_scanner_24" />
+        app:srcCompat="@drawable/ic_menu_camera" />
 
     <ProgressBar
         android:id="@+id/progressBar"
