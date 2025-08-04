@@ -32,7 +32,6 @@ class ISKaskadAPP : Application() {
         private const val LOGIN_ID_STR = "?LoginID="
 
 
-
         const val REQUEST_PARAM_LOGIN_ID :String = "LOGIN_ID"
         const val REQUEST_PARAM_RUNMODE :String  = "RUNMODE"
 
