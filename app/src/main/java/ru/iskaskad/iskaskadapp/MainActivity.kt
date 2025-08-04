@@ -131,35 +131,32 @@ class MainActivity : AppCompatActivity() {
         val appVM: IsKaskadAPPVM by viewModels()
 
 
-        appVM.RunProgress.observe(this, {it?.let {
-            if (it <= -1)
-            {
-                binding.appBarMain.progressBar.visibility = View.GONE
-            }
-            else {
-                binding.appBarMain.progressBar.progress = it
-                binding.appBarMain.progressBar.visibility = View.VISIBLE
+        appVM.RunProgress.observe(this) {
+            it?.let {
+                if (it <= -1) {
+                    binding.appBarMain.progressBar.visibility = View.GONE
+                } else {
+                    binding.appBarMain.progressBar.progress = it
+                    binding.appBarMain.progressBar.visibility = View.VISIBLE
+                }
             }
         }
-        })
 
-        appVM.ErrorText.observe(this, {
+        appVM.ErrorText.observe(this) {
             it?.let {
                 if (it == "")
                     binding.appBarMain.TransferError.visibility = View.GONE
-                else
-                {
+                else {
                     binding.appBarMain.TransferError.text = it
                     binding.appBarMain.TransferError.visibility = View.VISIBLE
                 }
             }
 
-        })
+        }
 
-        appVM.ErrorMessage.observe(this, {
+        appVM.ErrorMessage.observe(this) {
             it?.let {
-                if (it != "")
-                {
+                if (it != "") {
                     with(AlertDialog.Builder(this)) {
                         setTitle("Произошла ошибка")
                         setMessage(it)
@@ -169,10 +166,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
-        })
-
-
-
+        }
 
 
     }
