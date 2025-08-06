@@ -93,6 +93,7 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
+
         binding.appBarMain.fab.setOnClickListener { view ->
             navController.navigate(R.id.nav_settings)
                 try {
@@ -109,7 +110,6 @@ class MainActivity : AppCompatActivity() {
                 }
                 GlobalApp.sendLogMessage(LogTAG, "Get barcode from CAM OUT")
         }
-
         binding.appBarMain.fab.setOnLongClickListener { v ->
             v.setOnTouchListener { view, event ->
                 when (event.actionMasked) {
@@ -167,6 +167,7 @@ class MainActivity : AppCompatActivity() {
             }
 
         }
+
 
 
     }
