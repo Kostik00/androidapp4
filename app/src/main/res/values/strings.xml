@@ -7,7 +7,7 @@
     <string name="nav_header_desc">Navigation header</string>
 
     <string name="menu_findpasp">Контроль состояния ДСЕ</string>
-    <string name="menu_mtask">Учет перемещений ДСЕ</string>
+    <string name="menu_mtask">Перемещение ДСЕ</string>
     <string name="menu_sklad">Складской учет (хранение)</string>
     <string name="menu_skladom">Выдача ОМ</string>
 
