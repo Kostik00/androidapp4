@@ -95,7 +95,7 @@ class MainActivity : AppCompatActivity() {
 
 
         binding.appBarMain.fab.setOnClickListener { view ->
-            navController.navigate(R.id.nav_settings)
+            //navController.navigate(R.id.nav_settings)
                 try {
                     GlobalApp.sendLogMessage(LogTAG, "Get barcode from CAM IN")
                     val intent = Intent("com.google.zxing.client.android.SCAN")

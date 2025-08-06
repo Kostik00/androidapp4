@@ -27,7 +27,7 @@ class SkladIdMatInfo(jsonfrom: JSONObject) : MasterDTO(
 ) , Serializable
 {
 
-        public var IdMatItems : MutableList<SkladIDMatDTInfo> = ArrayList<SkladIDMatDTInfo>()
+        var IdMatItems : MutableList<SkladIDMatDTInfo> = ArrayList<SkladIDMatDTInfo>()
 
         val DataTag = "Android_SostOst"
 

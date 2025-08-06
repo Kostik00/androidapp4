@@ -18,11 +18,11 @@ class SkladGrZapDetailedInfo(jsonfrom: JSONObject) : MasterDTO(
    )
 )
 {
-   var isLoaded: Boolean = false;
+   var isLoaded: Boolean = false
 
-   var IdMatInfo :   MutableList<SkladIdMatInfo>  = ArrayList<SkladIdMatInfo>()
+    var IdMatInfo :   MutableList<SkladIdMatInfo>  = ArrayList<SkladIdMatInfo>()
 
-   public var SearchStr = ""
+   var SearchStr = ""
 
 
    val IdMatInfoTag = "IdMatInfo"
@@ -37,8 +37,8 @@ class SkladGrZapDetailedInfo(jsonfrom: JSONObject) : MasterDTO(
              val DataStr = SkladIdMatInfo(item)
              IdMatInfo.add(DataStr)
           }
-          isLoaded=true;
-             //IdMatInfo .postValue(NewDataArray)
+          isLoaded=true
+           //IdMatInfo .postValue(NewDataArray)
        }
    }
 }
