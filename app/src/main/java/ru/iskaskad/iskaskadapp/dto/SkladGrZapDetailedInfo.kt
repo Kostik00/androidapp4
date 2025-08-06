@@ -1,9 +1,6 @@
 package ru.iskaskad.iskaskadapp.dto
 
-import androidx.lifecycle.MutableLiveData
 import org.json.JSONObject
-import java.io.Serializable
-import java.util.ArrayList
 
 
 class SkladGrZapDetailedInfo(jsonfrom: JSONObject) : MasterDTO(
