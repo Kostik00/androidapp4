@@ -1,20 +1,16 @@
 package ru.iskaskad.iskaskadapp.ui.mtask
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import ru.iskaskad.iskaskadapp.R
 import ru.iskaskad.iskaskadapp.adapters.BindInfoArray
 import ru.iskaskad.iskaskadapp.adapters.BindInfoItem
 import ru.iskaskad.iskaskadapp.adapters.MasterHolder
-
-import ru.iskaskad.iskaskadapp.ui.mtask.placeholder.PlaceholderContent.PlaceholderItem
-import ru.iskaskad.iskaskadapp.databinding.FragmentMtaskItemBinding
 import ru.iskaskad.iskaskadapp.dto.MTaskInfo
 
 /**
@@ -80,7 +76,7 @@ class MTaskAdapter(private val callback: Callback) : RecyclerView.Adapter<MTaskA
             super.bind(item)
 
             ExpandCheckBox.setOnClickListener {
-                if (adapterPosition != RecyclerView.NO_POSITION) {
+                if (getBindingAdapterPosition()  != RecyclerView.NO_POSITION) {
                     item.ShowAdInfo = ExpandCheckBox.isChecked
                     //  items[adapterPosition].ShowAdInfo = ExpandCheckBox.isChecked
 
@@ -101,7 +97,7 @@ class MTaskAdapter(private val callback: Callback) : RecyclerView.Adapter<MTaskA
             }
 
             itemView.setOnClickListener {
-                if (adapterPosition != RecyclerView.NO_POSITION)
+                if (getBindingAdapterPosition () != RecyclerView.NO_POSITION)
                 {
                     callback.onItemClicked(item)
                     //callback.onItemClicked(items[adapterPosition])
