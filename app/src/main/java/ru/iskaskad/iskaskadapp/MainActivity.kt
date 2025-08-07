@@ -58,6 +58,7 @@ class MainActivity : AppCompatActivity() {
                 val barocodelen = barocode.length
                 newintent.putExtra(GlobalApp.BARCODE_NAME, barocode)
                 newintent.putExtra(GlobalApp.BARCODE_LENGTH, barocodelen)
+                newintent.setPackage( getPackageName() );
 
                 GlobalApp.sendLogMessage(LogTAG, "DelayedSendBarCodeBroadcast:$BarCodeStr")
                 sendBroadcast(newintent)

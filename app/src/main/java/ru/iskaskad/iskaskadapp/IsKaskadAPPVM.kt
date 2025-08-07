@@ -535,13 +535,13 @@ class IsKaskadAPPVM(application: Application) : AndroidViewModel(application) {
         try {
 
             val data = JSONObject(JSonStr)
-            val items = data.getJSONArray("data")
+            val items = data.getJSONArray("placeinfo")
             val item: JSONObject = items.getJSONObject(0)
             val DataStr = PlaceInfo(item)
             getPaspPlace().postValue(DataStr)
         } catch (e: JSONException) {
             e.printStackTrace()
-            showError("Ошибка данных (поиск места хранения)")
+            showError("Ошибка данных (поиск места хранения): ${e.toString()}")
         }
     }
 
@@ -664,6 +664,8 @@ class IsKaskadAPPVM(application: Application) : AndroidViewModel(application) {
 
     private fun showError(Text: String) {
         ErrorText.value = Text
+        ISKaskadAPP.sendLogMessage(LogTAG, "ErrorText=$Text")
+
     }
 
 
