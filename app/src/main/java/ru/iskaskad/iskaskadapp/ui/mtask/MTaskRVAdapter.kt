@@ -13,10 +13,7 @@ import ru.iskaskad.iskaskadapp.adapters.BindInfoItem
 import ru.iskaskad.iskaskadapp.adapters.MasterHolder
 import ru.iskaskad.iskaskadapp.dto.MTaskInfo
 
-/**
- * [RecyclerView.Adapter] that can display a [PlaceholderItem].
- * TODO: Replace the implementation with code for your data type.
- */
+
 class MTaskAdapter(private val callback: Callback) : RecyclerView.Adapter<MTaskAdapter.MainHolder>()
 {
 
