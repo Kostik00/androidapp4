@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">ИС КАСКАД v2</string>
+    <string name="service_description">Фоновая служба ИС Каскад</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">ИС КАСКАД</string>
@@ -54,20 +55,25 @@
     <string name="url_header">Настройки подключения</string>
     <string name="url_title">Строка подключения</string>
     <string name="url_key">URL</string>
-    <string name="url_default">http://192.168.64.5/cgi-bin/001/</string>
+    <string name="url_default">http://192.168.11.79/cgi-bin/003/</string>
 
     <!-- Sync Preferences -->
 
-    <string name="sync_header">Параметры автообновления</string>
-    <string name="sync_title">Периодичность синхронизации</string>
-    <string name="camscan_header">Программный сканер</string>
+    <string name="mtask_sync_header">Параметры проверки заявок на перемещения</string>
 
+
+
+    <string name="prgscan_header">Программный сканер</string>
     <string name="prgscan_key">prgscan</string>
     <string name="prgscan_title">Включить прогр. сканер</string>
 
 
-    <string name="sync_key">syncperiod</string>
-    <string name="sync_default">60</string>
+    <string name="mtask_sync_activity_key">mtask_active</string>
+    <string name="mtask_sync_activity_title">Проверять периодически</string>
+
+    <string name="mtask_sync_period_key">mtask_syncperiod</string>
+    <string name="mtask_sync_period_title">Периодичность проверки</string>
+    <string name="mtask_sync_period_default">60</string>
 
 
     <string name="SertInfoNumSert">%1$s от %2$s</string>

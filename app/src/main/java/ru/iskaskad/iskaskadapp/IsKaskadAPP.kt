@@ -3,6 +3,7 @@ package ru.iskaskad.iskaskadapp
 import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
@@ -148,7 +149,7 @@ class ISKaskadAPP : Application() {
 
         sendLogMessage(LOG_TAG, "LoadPref")
 
-        ConnectionStr = sharedPreferences.getString(urlKey, null) ?: getString(R.string.url_default)
+        ConnectionStr = sharedPreferences.getString(urlKey, getString(R.string.url_default)) ?: getString(R.string.url_default)
 
         val tmpUpdateTimeout = sharedPreferences.getString(syncPeriodKey,null)
         UPDATE_TIMEOUT=  (tmpUpdateTimeout?.toLongOrNull() ?: deflong) * 1000
@@ -164,8 +165,8 @@ class ISKaskadAPP : Application() {
         super.onCreate()
 
         urlKey = getString(  R.string.url_key )
-        syncPeriodKey =  getString( R.string.sync_key )
-        deflong = getString(R.string.sync_default).toLong()
+        syncPeriodKey =  getString( R.string.mtask_sync_period_key )
+        deflong = getString(R.string.mtask_sync_period_default).toLong()
 
         sendLogMessage(LOG_TAG, "APP onCreate")
 
@@ -200,9 +201,7 @@ class ISKaskadAPP : Application() {
                 NotificationManager.IMPORTANCE_HIGH
             )
             channel1.description = "Канал оповещение ИС КАСКАД"
-            val manager = getSystemService(
-                NotificationManager::class.java
-            )
+            val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             manager.createNotificationChannel(channel1)
         }
     }

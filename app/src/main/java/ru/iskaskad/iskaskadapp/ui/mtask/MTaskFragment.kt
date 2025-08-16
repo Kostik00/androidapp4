@@ -21,6 +21,7 @@ import ru.iskaskad.iskaskadapp.ISKaskadAPP
 import ru.iskaskad.iskaskadapp.IsKaskadAPPVM
 import ru.iskaskad.iskaskadapp.databinding.FragmentMtaskListBinding
 import ru.iskaskad.iskaskadapp.dto.MTaskInfo
+import ru.iskaskad.iskaskadapp.service.MTaskService
 
 /**
  * A fragment representing a list of Items.
@@ -149,6 +150,9 @@ class MTaskFragment : Fragment() {
         ISKaskadAPP.sendLogMessage(LogTAG, "loadMTaskList")
         AppVM.loadMTaskList()
 
+        kotlin.runCatching {
+            requireContext().stopService(Intent(activity, MTaskService::class.java))
+        }
 
 
 
@@ -158,6 +162,10 @@ class MTaskFragment : Fragment() {
 
         this.requireContext().unregisterReceiver(broadCastReceiver)
         ISKaskadAPP.sendLogMessage(LogTAG, "Pause")
+
+        val intent = Intent(activity, MTaskService::class.java)
+
+        requireContext().startService(intent)
 
         super.onPause()
     }

@@ -3,6 +3,7 @@ package ru.iskaskad.iskaskadapp
 import android.app.AlertDialog
 import android.app.Application
 import android.app.Dialog
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
@@ -49,7 +50,7 @@ class IsKaskadAPPVM(application: Application) : AndroidViewModel(application) {
 
     var AdvSearchChecked: Boolean = false
 
-    private val myPreferences = PreferenceManager.getDefaultSharedPreferences(getApplication())
+//    private val myPreferences = PreferenceManager.getDefaultSharedPreferences(getApplication())
 
     var SearchStr: String = ""
 
@@ -718,7 +719,7 @@ class IsKaskadAPPVM(application: Application) : AndroidViewModel(application) {
 
         ISKaskadAPP.sendLogMessage(LogTAG, "onCleared")
 
-        val mySaver = myPreferences.edit()
+        val mySaver = ISKaskadAPP.sharedPreferences.edit()
         mySaver.putString("SearchStr", SearchStr)
 
         mySaver.apply()

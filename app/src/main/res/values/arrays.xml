@@ -3,13 +3,13 @@
 
 
 
-    <string-array name="sync_values">
+    <string-array name="mtask_sync_period_values">
         <item>30</item>
         <item>60</item>
         <item>180</item>
         <item>300</item>
     </string-array>
-    <string-array name="sync_names">
+    <string-array name="mtask_sync_period_names">
         <item>30 сек.</item>
         <item>1 мин.</item>
         <item>3 мин.</item>
