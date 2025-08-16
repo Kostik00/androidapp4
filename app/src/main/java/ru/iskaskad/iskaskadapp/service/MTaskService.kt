@@ -1,6 +1,7 @@
 package ru.iskaskad.iskaskadapp.service
 
 
+import android.Manifest
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
@@ -8,11 +9,8 @@ import android.content.Intent
 import android.media.RingtoneManager
 import android.net.Uri
 import android.os.IBinder
-import android.widget.RemoteViews
-import androidx.appcompat.content.res.AppCompatResources
+import androidx.annotation.RequiresPermission
 import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
-import androidx.core.graphics.drawable.toBitmap
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelAndJoin
@@ -122,10 +120,11 @@ class MTaskService : Service() {
         super.onDestroy()
     }
 
+    @RequiresPermission(Manifest.permission.POST_NOTIFICATIONS)
     private fun sendOnChannel1(Txt: String) {
 
         val defaultSoundUri: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-        val bitmap = AppCompatResources.getDrawable(this, R.mipmap.ic_launcher)?.toBitmap()
+        //val bitmap = AppCompatResources.getDrawable(this, R.mipmap.ic_launcher)?.toBitmap()
 
         val goToAppIntent = Intent(this, MainActivity::class.java)
 
@@ -144,14 +143,13 @@ class MTaskService : Service() {
 
         val notification = NotificationCompat.Builder(this, ISKaskadAPP.CHANNEL_ID)
             .setContentText(Txt)
-            .setContentTitle("У вас остались незавершенные задачи!")
+            .setContentTitle("Заявки")
             .setWhen(System.currentTimeMillis())
             .setSound(defaultSoundUri)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setContentIntent(pendingIntent)
             .setAutoCancel(false)
             .setSmallIcon(R.drawable.ic_logo)
-            .setLargeIcon(bitmap)
             .setVibrate(longArrayOf(0, 300, 0, 300, 0, 300))
             .build()
 
@@ -161,7 +159,6 @@ class MTaskService : Service() {
         } catch (e:Exception) {
             ISKaskadAPP.sendLogMessage(LogTAG, "Notify Exception  $e")
         }
-        //startForeground(1, notification)
     }
 
     override fun stopService(name: Intent?): Boolean {
@@ -169,8 +166,6 @@ class MTaskService : Service() {
 
         return super.stopService(name)
     }
-
-
 
 
 
