@@ -37,7 +37,8 @@ class MainActivity : AppCompatActivity() {
 
     val startForResult = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
-    ) { result: ActivityResult ->
+    )
+    { result: ActivityResult ->
         GlobalApp.sendLogMessage(LogTAG, "CAMBARCODE Event in")
 
         if (result.resultCode == RESULT_OK) {
@@ -72,9 +73,11 @@ class MainActivity : AppCompatActivity() {
 
 
 
-    @SuppressLint("ClickableViewAccessibility")
+    //@SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        GlobalApp.sendLogMessage(LogTAG, "onCreate")
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)

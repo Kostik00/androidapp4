@@ -46,31 +46,32 @@ class MTaskService : Service() {
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
 
-
         MTaskJob.cancel()
 
         MTaskJob = GlobalScope.launch  {
             ISKaskadAPP.sendLogMessage(LogTAG, "Job is started ")
             while (isActive) {
 
-                    try {
-                        ISKaskadAPP.sendLogMessage(LogTAG, "Waiting for delay $UPDATE_TIMEOUT")
-                        delay( UPDATE_TIMEOUT )
-                        ISKaskadAPP.sendLogMessage(LogTAG, "Delay complete ")
-                        val NotifyStr=loadMTaskStatistic()
-                        if (NotifyStr != "")
-                            sendOnChannel1(loadMTaskStatistic())
-                        else
-                            startForeground(1, null)
-
-
-                    } catch (e:Exception) {
-                        ISKaskadAPP.sendLogMessage(LogTAG, "Exception  $e")
+                try {
+                    ISKaskadAPP.sendLogMessage(LogTAG, "Waiting for delay $UPDATE_TIMEOUT")
+                    delay( UPDATE_TIMEOUT )
+                    ISKaskadAPP.sendLogMessage(LogTAG, "Delay complete ")
+                    val NotifyStr = loadMTaskStatistic()
+                    if (NotifyStr != "") {
+                        ISKaskadAPP.sendLogMessage(LogTAG, "Notification string not empty, sending notification")
+                        sendOnChannel1(NotifyStr)
+                    } else {
+                        ISKaskadAPP.sendLogMessage(LogTAG, "Notification string empty, no notification sent")
+                        // Не вызываем startForeground с null-уведомлением
+                        // Можно добавить nm.cancel(1) если нужно убрать старое уведомление
+                        nm.cancel(1)
                     }
+                } catch (e:Exception) {
+                    ISKaskadAPP.sendLogMessage(LogTAG, "Exception  $e")
+                }
 
             }
             ISKaskadAPP.sendLogMessage(LogTAG, "Job is stoped ")
-            
         }
         ISKaskadAPP.sendLogMessage(LogTAG, "Service started ")
 
@@ -84,30 +85,28 @@ class MTaskService : Service() {
 
         val UrlStr = ISKaskadAPP.makeURLStr(ISKaskadAPP.URL_MTASK_GETSTATISTICS, "")
 
-            val ResultStr = URL(UrlStr).readText()
-            val item = JSONObject(ResultStr)
+        val ResultStr = URL(UrlStr).readText()
+        val item = JSONObject(ResultStr)
 
-            var SkipNotify = true
-            notificationOutput += "Ожидают:" + item.getInt("Status0")
+        var SkipNotify = true
+        notificationOutput += "Ожидают:" + item.getInt("Status0")
         if (item.getInt("Status0") > 0)
-            SkipNotify=false
+            SkipNotify = false
 
-            notificationOutput += "  Принято:" + item.getInt("Status1")
+        notificationOutput += "  Принято:" + item.getInt("Status1")
         if (item.getInt("Status1") > 0)
-            SkipNotify=false
+            SkipNotify = false
 
-            notificationOutput += "  В работе:" + item.getInt("Status2")
-        if (item.getInt("Status1") > 0)
-            SkipNotify=false
+        notificationOutput += "  В работе:" + item.getInt("Status2")
+        if (item.getInt("Status2") > 0) // Исправлено: было Status1
+            SkipNotify = false
 
         if (SkipNotify)
-            notificationOutput=""
+            notificationOutput = ""
 
         ISKaskadAPP.sendLogMessage(LogTAG, "Load Statistics OK")
 
-
         return notificationOutput
-
     }
 
 
@@ -170,4 +169,3 @@ class MTaskService : Service() {
 
 
 }
-
