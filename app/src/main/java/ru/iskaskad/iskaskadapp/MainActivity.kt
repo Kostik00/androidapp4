@@ -23,72 +23,49 @@ import com.google.android.material.navigation.NavigationView
 import ru.iskaskad.iskaskadapp.databinding.ActivityMainBinding
 import ru.iskaskad.iskaskadapp.ISKaskadAPP.Companion as GlobalApp
 
-
 class MainActivity : AppCompatActivity() {
     companion object {
-        const val LogTAG  = "MainActivity"
+        const val LogTAG = "MainActivity"
     }
-
-
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
-
     val startForResult = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
-    )
-    { result: ActivityResult ->
+    ) { result: ActivityResult ->
         GlobalApp.sendLogMessage(LogTAG, "CAMBARCODE Event in")
-
         if (result.resultCode == RESULT_OK) {
             val data = result.data!!
-
             val BarCodeStr = data.getStringExtra("SCAN_RESULT")
-            //val BarCodeStr = intent?.getStringExtra("SCAN_RESULT")
-            // val format = intent?.getStringExtra("SCAN_RESULT_FORMAT")
-
             GlobalApp.sendLogMessage(LogTAG, "CAMBARCODE:$BarCodeStr")
-
             Thread {
-
                 Thread.sleep(200)
-
                 val newintent = Intent(GlobalApp.SCAN_ACTION)
                 val barocode = BarCodeStr!!
                 val barocodelen = barocode.length
                 newintent.putExtra(GlobalApp.BARCODE_NAME, barocode)
                 newintent.putExtra(GlobalApp.BARCODE_LENGTH, barocodelen)
-                newintent.setPackage( getPackageName() )
-
+                newintent.setPackage(packageName)
                 GlobalApp.sendLogMessage(LogTAG, "DelayedSendBarCodeBroadcast:$BarCodeStr")
                 sendBroadcast(newintent)
             }.start()
-        }
-        else
+        } else {
             GlobalApp.sendLogMessage(LogTAG, "No BarCode DATA")
-
+        }
         GlobalApp.sendLogMessage(LogTAG, "CAMBARCODE Event out")
     }
 
-
-
-    //@SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         GlobalApp.sendLogMessage(LogTAG, "onCreate")
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         setSupportActionBar(binding.appBarMain.toolbar)
 
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_content_main)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow, R.id.nav_mtask
@@ -97,43 +74,35 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-
         binding.appBarMain.fab.setOnClickListener { view ->
-            //navController.navigate(R.id.nav_settings)
-                try {
-                    GlobalApp.sendLogMessage(LogTAG, "Get barcode from CAM IN")
-                    val intent = Intent("com.google.zxing.client.android.SCAN")
-
-                    startForResult.launch(intent)
-
-                    GlobalApp.sendLogMessage(LogTAG, "Start Barcode APP success. Waiting for Barcode Event")
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                    Toast.makeText(applicationContext, "ERROR:$e", Toast.LENGTH_LONG).show()
-                    GlobalApp.sendLogMessage(LogTAG, "Get barcode from CAM ERROR")
-                }
-                GlobalApp.sendLogMessage(LogTAG, "Get barcode from CAM OUT")
+            try {
+                GlobalApp.sendLogMessage(LogTAG, "Get barcode from CAM IN")
+                val intent = Intent("com.google.zxing.client.android.SCAN")
+                startForResult.launch(intent)
+                GlobalApp.sendLogMessage(LogTAG, "Start Barcode APP success. Waiting for Barcode Event")
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Toast.makeText(applicationContext, "ERROR:$e", Toast.LENGTH_LONG).show()
+                GlobalApp.sendLogMessage(LogTAG, "Get barcode from CAM ERROR")
+            }
+            GlobalApp.sendLogMessage(LogTAG, "Get barcode from CAM OUT")
         }
         binding.appBarMain.fab.setOnLongClickListener { v ->
             v.setOnTouchListener { view, event ->
                 when (event.actionMasked) {
                     MotionEvent.ACTION_MOVE -> {
-                        view.x = event.rawX - binding.appBarMain.fab.width/2
+                        view.x = event.rawX - binding.appBarMain.fab.width / 2
                         view.y = event.rawY - binding.appBarMain.fab.height / 2
                     }
-                    MotionEvent.ACTION_UP ->
-                        view.setOnTouchListener(null)
-                    else ->
-                        { }
+                    MotionEvent.ACTION_UP -> view.setOnTouchListener(null)
+                    else -> { }
                 }
                 true
             }
             true
         }
 
-
         val appVM: IsKaskadAPPVM by viewModels()
-
 
         appVM.RunProgress.observe(this) {
             it?.let {
@@ -155,7 +124,6 @@ class MainActivity : AppCompatActivity() {
                     binding.appBarMain.TransferError.visibility = View.VISIBLE
                 }
             }
-
         }
 
         appVM.ErrorMessage.observe(this) {
@@ -169,19 +137,10 @@ class MainActivity : AppCompatActivity() {
                     appVM.ErrorMessage.postValue("")
                 }
             }
-
         }
-
-
-
     }
 
-
-
-
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main, menu)
         return true
     }
@@ -191,10 +150,8 @@ class MainActivity : AppCompatActivity() {
             R.id.action_settings -> {
                 val navController = findNavController(R.id.nav_host_fragment_content_main)
                 navController.navigate(R.id.nav_settings)
-
                 true
             }
-
             else -> super.onOptionsItemSelected(item)
         }
     }
