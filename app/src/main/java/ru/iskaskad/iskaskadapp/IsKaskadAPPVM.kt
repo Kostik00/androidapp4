@@ -675,7 +675,7 @@ class IsKaskadAPPVM(application: Application) : AndroidViewModel(application) {
     }
 
 
-    private fun runHTTPQry(
+    private   fun runHTTPQry(
         QryID: Int, URLStr: String, URLParams: String,
         callback: ParseResult, PrevJob: Job
     ): Job {
@@ -686,6 +686,7 @@ class IsKaskadAPPVM(application: Application) : AndroidViewModel(application) {
         runProgress()
         ErrorText.value = ""
 
+
         Result = GlobalScope.launch(Dispatchers.IO) {
 
             val UrlStr = ISKaskadAPP.makeURLStr(URLStr, URLParams)
@@ -694,6 +695,8 @@ class IsKaskadAPPVM(application: Application) : AndroidViewModel(application) {
 
             try {
                 val ResultStr = URL(UrlStr).readText()
+
+                delay(3000)
 
                 ISKaskadAPP.sendLogMessage(LogTAG, "URL QRY COMPLETE ID=$QryID")
 
