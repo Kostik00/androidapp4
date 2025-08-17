@@ -15,6 +15,8 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavOptions
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.*
 import ru.iskaskad.iskaskadapp.ISKaskadAPP
@@ -84,10 +86,10 @@ class LoginFragment : Fragment() {
         val login = binding.loginField.text.toString()
         val password = binding.passwordField.text.toString()
 
-        if (login.isBlank() || password.isBlank()) {
-            Toast.makeText(requireContext(), "Введите логин и пароль", Toast.LENGTH_SHORT).show()
-            return
-        }
+//        if (login.isBlank() || password.isBlank()) {
+//            Toast.makeText(requireContext(), "Введите логин и пароль", Toast.LENGTH_SHORT).show()
+//            return
+//        }
 
         //TODO GenLoginID
         val TmpLoginID = genLoginID(login + " " + password)
@@ -113,7 +115,34 @@ class LoginFragment : Fragment() {
                             RunMode = binding.RadioGroupRunMode.checkedRadioButtonId
                             Toast.makeText(requireContext(), "Успешная авторизация", Toast.LENGTH_SHORT).show()
 
-                            findNavController().navigate(R.id.nav_home)
+                            when (RunMode) {
+                                R.id.radio_Sklad,
+                                R.id.radio_FindPasp,
+                                R.id.radio_Sklad_outm -> {
+                                    findNavController().navigate(
+                                        R.id.nav_home,
+                                        null,
+                                        androidx.navigation.NavOptions.Builder()
+                                            .setPopUpTo(R.id.nav_login, true)
+                                            .setLaunchSingleTop(true)
+                                            .build()
+                                    )
+                                }
+                                R.id.radio_MTask -> {
+
+                                    findNavController().navigate(
+                                        R.id.nav_mtask,
+                                        null,
+                                        androidx.navigation.NavOptions.Builder()
+                                            .setPopUpTo(R.id.nav_login, true)
+                                            .setLaunchSingleTop(true)
+                                            .build()
+                                    )
+
+                                }
+                                else -> { /* ничего не делать */ }
+                            }
+
                         } else {
                             Toast.makeText(requireContext(), "Ошибка авторизации", Toast.LENGTH_SHORT).show()
                         }
