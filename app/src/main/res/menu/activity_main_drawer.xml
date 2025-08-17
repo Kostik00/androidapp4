@@ -21,6 +21,10 @@
             android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/Settings" />
         <item
+            android:id="@+id/nav_login"
+            android:icon="@drawable/ic_menu_logout"
+            android:title="@string/menu_chusr" />
+        <item
             android:id="@+id/nav_mtask"
             android:icon="@drawable/ic_menu_mtask"
             android:title="@string/menu_mtask"

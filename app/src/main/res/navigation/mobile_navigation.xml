@@ -6,6 +6,12 @@
     app:startDestination="@+id/nav_home">
 
     <fragment
+        android:id="@+id/nav_login"
+        android:name="ru.iskaskad.iskaskadapp.LoginFragment"
+        android:label="@string/menu_chusr"
+        tools:layout="@layout/fragment_login" />
+
+    <fragment
         android:id="@+id/nav_home"
         android:name="ru.iskaskad.iskaskadapp.ui.home.HomeFragment"
         android:label="@string/menu_home"
@@ -22,10 +28,12 @@
         android:name="ru.iskaskad.iskaskadapp.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
+
     <fragment
         android:id="@+id/nav_settings"
         android:name="ru.iskaskad.iskaskadapp.ui.settings.SettingsFragment"
         android:label="@string/menu_settings" />
+
     <fragment
         android:id="@+id/nav_mtask"
         android:name="ru.iskaskad.iskaskadapp.ui.mtask.MTaskFragment"

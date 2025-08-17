@@ -7,6 +7,7 @@
     <string name="nav_header_subtitle">info@iskaskad.ru</string>
     <string name="nav_header_desc">Navigation header</string>
 
+
     <string name="menu_findpasp">Контроль состояния ДСЕ</string>
     <string name="menu_mtask">Перемещение ДСЕ</string>
     <string name="menu_sklad">Складской учет (хранение)</string>
@@ -15,7 +16,7 @@
     <string name="button_connect">Подключиться</string>
 
     <string name="menu_settings">Настройки приложения</string>
-    <string name="menu_chassword">Сменить пользователя</string>
+    <string name="menu_chpassword">Сменить пароль</string>
     <string name="menu_exitprg">Выйти из программы</string>
 
     <string name="namePredm">Наименование материала</string>
@@ -90,6 +91,8 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+
+    <string name="menu_chusr">Вход в систему</string>
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
 

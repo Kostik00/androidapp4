@@ -14,6 +14,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.*
 import ru.iskaskad.iskaskadapp.ISKaskadAPP
@@ -77,18 +78,24 @@ class LoginFragment : Fragment() {
 
 
 
-    private var LoginJob:Job = Job()
+    private var LoginJob: Job = Job()
 
     private fun tryToLogin() {
+        val login = binding.loginField.text.toString()
+        val password = binding.passwordField.text.toString()
+
+        if (login.isBlank() || password.isBlank()) {
+            Toast.makeText(requireContext(), "Введите логин и пароль", Toast.LENGTH_SHORT).show()
+            return
+        }
 
         //TODO GenLoginID
-        val TmpLoginID = genLoginID(binding.loginField.text.toString() + " " + binding.passwordField.text.toString())
-        val URLStr= ISKaskadAPP.makeURLStr(ISKaskadAPP.URL_CHECKPASSWORD,"", TmpLoginID)
+        val TmpLoginID = genLoginID(login + " " + password)
+        val URLStr = ISKaskadAPP.makeURLStr(ISKaskadAPP.URL_CHECKPASSWORD, "", TmpLoginID)
 
-        if (LoginJob.isActive)   LoginJob.cancel()
+        if (LoginJob.isActive) LoginJob.cancel()
 
-
-        LoginJob = GlobalScope.launch(Dispatchers.IO) {
+        LoginJob = viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
 
             ISKaskadAPP.sendLogMessage(LogTAG, "URL QRY START ID=CheckLogin URLStr=$URLStr")
 
@@ -106,17 +113,12 @@ class LoginFragment : Fragment() {
                             RunMode = binding.RadioGroupRunMode.checkedRadioButtonId
                             Toast.makeText(requireContext(), "Успешная авторизация", Toast.LENGTH_SHORT).show()
 
-                            //(activity as MainActivity).setupNavGraph(binding.RadioGroupRunMode.checkedRadioButtonId)
-                        }
-                        else
-                        {
+                            findNavController().navigate(R.id.nav_home)
+                        } else {
                             Toast.makeText(requireContext(), "Ошибка авторизации", Toast.LENGTH_SHORT).show()
-
                         }
                     }
-            }
-            catch (e: Exception)
-            {
+            } catch (e: Exception) {
                 ISKaskadAPP.sendLogMessage(LogTAG, "URL QRY Error ID=CheckLogin URLStr=$URLStr")
                 if (isActive)
                     launch(Dispatchers.Main) {
