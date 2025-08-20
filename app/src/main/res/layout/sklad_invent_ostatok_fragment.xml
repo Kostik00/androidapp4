@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.sklad.SkladInventOstatok"
+    android:orientation="vertical">
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView6"
+                style="@style/DataCaption"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="# прихода" />
+
+            <TextView
+                android:id="@+id/fr_Key_Nacl_Str_Sost"
+                style="@style/DataText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/DataCaption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Материал" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/fr_Key_Id_Mat"
+                    style="@style/DataText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="111" />
+
+                <TextView
+                    style="@style/DataText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="/" />
+
+                <TextView
+                    android:id="@+id/fr_Key_Predm"
+                    style="@style/DataText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="333" />
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/fr_NamePredm2"
+                style="@style/DataText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:text="Title 001" />
+            <TextView
+                android:id="@+id/fr_StrMark2"
+                style="@style/DataText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:text="Title 001-02" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/FragmentSertInfoMaxGr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="8dp"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="4dp" />
+
+            <LinearLayout
+                android:id="@+id/expandInvoice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:orientation="horizontal"
+                android:visibility="visible"
+                android:baselineAligned="false">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5"
+                    android:orientation="horizontal">
+
+
+
+                        <TextView
+                            android:id="@+id/fr_Vid_Sert"
+                            style="@style/DataCaption"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="111" />
+
+                        <TextView
+
+                            style="@style/DataText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=" " />
+
+                        <TextView
+                            android:id="@+id/fr_N_Sert"
+                            style="@style/DataText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="333" />
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        style="@style/DataCaption"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Плавка" />
+
+                    <TextView
+                        style="@style/DataCaption"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|center"
+                        android:text="Партия" />
+
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/fr_Plavka"
+                            style="@style/DataText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:text="Плавка" />
+
+                        <TextView
+                            android:id="@+id/fr_Party"
+                            style="@style/DataText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end|center"
+
+                            android:text="Партия" />
+                    </FrameLayout>
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/FragmentKolvoInfoGr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="8dp">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+
+
+                <TextView
+                    style="@style/DataCaption"
+
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:maxLines="1"
+                    android:text="Место" />
+
+                <TextView
+                    android:id="@+id/fr_Cod_Pasp_PlaceStr"
+                    style="@style/DataText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+
+                    android:layout_weight="2"
+                    android:hint="Место" />
+
+                <TextView
+                    style="@style/DataCaption"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+
+                    android:layout_weight="1"
+                    android:maxLines="1"
+                    android:text="Колво :" />
+
+                <EditText
+                    android:id="@+id/fr_InventKolvo_Str"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="numberDecimal"
+                    android:imeOptions="actionDone"
+                    android:text="0.00"
+                    android:hint="Колво"
+                    android:autofillHints="" />
+
+                <TextView
+                    android:id="@+id/fr_Edizm"
+                    style="@style/DataText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+
+                    android:layout_weight="1"
+                    android:maxLines="1"
+                    android:text="Ед.изм" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/DataCaption"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="Данные по инвентаризации" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+
+
+            <TableLayout
+                android:id="@+id/FragmentZagotovInfoGr"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:stretchColumns="*">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        style="@style/DataCaption"
+                        android:layout_span="2"
+                        android:maxLines="1"
+                        android:text="Место" />
+
+                    <TextView
+                        android:id="@+id/fr_Cod_Pasp_Place_Zag"
+                        style="@style/DataText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_span="3"
+                        android:maxLines="1"
+                        android:text="Место" />
+
+
+                </TableRow>
+
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        style="@style/DataCaption"
+                        android:layout_span="2"
+                        android:text="Проф. разм." />
+
+                    <TextView
+                        android:id="@+id/Fr_ProfRazm"
+                        style="@style/DataText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_span="3"
+                        android:maxLines="1"
+                        android:text="Проф. разм." />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/textView7"
+                        style="@style/DataCaption"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_span="2"
+                        android:text="Остаток" />  <!--  android:background="@color/mtcLightOlivier"  -->
+
+                    <EditText
+                        android:id="@+id/fr_InventKolvo_Zag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionDone"
+                        android:inputType="numberDecimal"
+                        android:ems="10"
+                        android:maxLines="1"
+                        android:layout_span="3"
+                        android:labelFor="@id/textView7"
+                        android:autofillHints=""
+                        android:hint="Кол-во заг." />  <!--  android:background="@color/mtcLightRose"  -->
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/textViewMass"
+                        style="@style/DataCaption"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_span="2"
+                        android:text="Масса" />  <!--  android:background="@color/mtcDarkOlivier"  -->
+
+                    <EditText
+                        android:id="@+id/fr_InventMass_Zag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionDone"
+                        android:inputType="numberDecimal"
+                        android:ems="10"
+                        android:maxLines="1"
+                        android:layout_span="3"
+                        android:labelFor="@id/textView7"
+                        android:autofillHints=""
+                        android:hint="масса в кг." />  <!--  android:background="@color/mtcDarkRose"  -->
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        style="@style/DataCaption"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_span="5"
+                        android:text="Данные по инвентаризации" />
+
+                </TableRow>
+
+
+            </TableLayout>
+
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/sklad_history_rv"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent" />
+
+
+
+</LinearLayout>

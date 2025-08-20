@@ -42,6 +42,56 @@
         tools:layout="@layout/fragment_mtask_list" />
 
 
+    <fragment
+        android:id="@+id/nav_sklad"
+        android:name="ru.iskaskad.iskaskadapp.ui.sklad.SkladFindFragment"
+        android:label="@string/menu_sklad"
+        tools:layout="@layout/sklad_find_fragment" >
+        <action
+            android:id="@+id/action_nav_sklad_to_skladListOstatokFragment"
+            app:destination="@id/skladListOstatokFragment" />
+    </fragment>
 
+
+    <fragment
+        android:id="@+id/nav_sklad_om"
+        android:name="ru.iskaskad.iskaskadapp.ui.sklad.fragment_sklad_out"
+        android:label="@string/menu_skladom"
+        tools:layout="@layout/fragment_sklad_out" >
+        <action
+            android:id="@+id/action_nav_sklad_om_to_fragment_sklad_out_dt"
+            app:destination="@id/fragment_sklad_out_dt" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/skladListOstatokFragment"
+        android:name="ru.iskaskad.iskaskadapp.ui.sklad.SkladListOstatokFragment"
+        android:label="Перечень остатков"
+        tools:layout="@layout/sklad_list_ostatok_fragment" >
+        <action
+            android:id="@+id/action_skladListOstatokFragment_to_skladInventOstatok"
+            app:destination="@id/skladInventOstatok" />
+    </fragment>
+    <fragment
+        android:id="@+id/skladInventOstatok"
+        android:name="ru.iskaskad.iskaskadapp.ui.sklad.SkladInventOstatok"
+        android:label="Детальная информация"
+        tools:layout="@layout/sklad_invent_ostatok_fragment" />
+    <fragment
+        android:id="@+id/fragment_sklad_out_dt"
+        android:name="ru.iskaskad.iskaskadapp.ui.sklad.fragment_sklad_out_dt"
+        android:label="Выдача ОМ"
+        tools:layout="@layout/fragment_sklad_out_dt"
+        >
+        <action
+            android:id="@+id/action_fragment_sklad_out_dt_to_subjFindFragment"
+            app:destination="@id/subjFindFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/subjFindFragment"
+        android:name="ru.iskaskad.iskaskadapp.ui.subj.SubjFindFragment"
+        android:label="SubjFindFragment"
+        tools:layout="@layout/fragment_find_subj"
+        />
 
 </navigation>

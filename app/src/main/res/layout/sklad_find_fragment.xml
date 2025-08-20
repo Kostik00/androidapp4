@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+>
+
+        <LinearLayout
+            android:id="@+id/searchParams"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/RegN"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/custom_edit_text"
+                android:hint="@string/RegN"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:maxLines="1"
+                style="@style/MainTextEdit"
+                android:autofillHints="@string/RegN" />
+
+            <EditText
+                android:id="@+id/fr_StrMark"
+                style="@style/MainTextEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/custom_edit_text"
+                android:hint="@string/StrMark"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:maxLines="1"
+                android:autofillHints="@string/StrMark" />
+
+            <EditText
+                android:id="@+id/Key_Predm"
+                style="@style/MainTextEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/custom_edit_text"
+                android:hint="@string/Key_Predm"
+                android:imeOptions="actionDone"
+                android:inputType="numberDecimal"
+                android:maxLines="1"
+                android:autofillHints="@string/Key_Predm" />
+
+            <EditText
+                android:id="@+id/Key_Id_Mat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/custom_edit_text"
+                android:hint="@string/Key_Id_Mat"
+                android:imeOptions="actionDone"
+                android:inputType="numberDecimal"
+                android:maxLines="1"
+                style="@style/MainTextEdit"
+                android:autofillHints="@string/Key_Id_Mat" />
+
+            <EditText
+                android:id="@+id/nSert"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/custom_edit_text"
+                android:hint="@string/nSert"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:maxLines="1"
+                style="@style/MainTextEdit"
+                android:autofillHints="@string/nSert" />
+
+            <EditText
+                android:id="@+id/codPlavka"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/custom_edit_text"
+                android:hint="@string/codPlavka"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:maxLines="1"
+                style="@style/MainTextEdit"
+                android:autofillHints="@string/codPlavka" />
+
+            <EditText
+                android:id="@+id/party"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/custom_edit_text"
+                android:hint="@string/party"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:maxLines="1"
+                style="@style/MainTextEdit"
+                android:autofillHints="@string/party" />
+
+            <EditText
+                android:id="@+id/namePredm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/custom_edit_text"
+                android:hint="@string/namePredm"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:maxLines="1"
+                style="@style/MainTextEdit"
+                android:autofillHints="@string/namePredm" />
+
+            <EditText
+                android:id="@+id/sortam"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/custom_edit_text"
+                android:hint="@string/sortam"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:maxLines="1"
+                style="@style/MainTextEdit"
+                android:autofillHints="@string/sortam" />
+
+            <EditText
+                android:id="@+id/marka"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/custom_edit_text"
+                android:hint="@string/Marka"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:maxLines="1"
+                style="@style/MainTextEdit"
+                android:autofillHints="@string/Marka" />
+
+            <EditText
+                android:id="@+id/place"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/custom_edit_text"
+                android:hint="@string/StoragePlace"
+                android:imeOptions="actionDone"
+                android:maxLines="1"
+                style="@style/MainTextEdit"
+                android:inputType="text"
+                android:autofillHints="@string/StoragePlace" />
+
+            <Button
+                android:id="@+id/searchButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:background="@color/colorPrimaryDark"
+                android:text="@string/search_title"
+                android:textColor="#FFF" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
