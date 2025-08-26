@@ -11,6 +11,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.registerReceiver
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -111,7 +113,8 @@ class SubjFindFragment : Fragment() {
         super.onResume()
         GlobalApp.sendLogMessage(LogTAG, "OnResume")
 
-        context?.registerReceiver(broadCastReceiver, IntentFilter(GlobalApp.SCAN_ACTION))
+        registerReceiver(this.requireContext() , broadCastReceiver, IntentFilter(ISKaskadAPP.SCAN_ACTION), ContextCompat.RECEIVER_NOT_EXPORTED)
+
 
         TS   = Calendar.getInstance().time
 
