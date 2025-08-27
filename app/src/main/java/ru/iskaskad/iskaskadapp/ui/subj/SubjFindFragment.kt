@@ -140,6 +140,10 @@ class SubjFindFragment : Fragment() {
 
 
 
+
+
+
+
     private fun initList() {
 
         binding.rvSubjList.layoutManager = LinearLayoutManager(this.context)

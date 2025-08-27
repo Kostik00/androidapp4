@@ -31,5 +31,10 @@
             android:icon="@drawable/ic_menu_mtask"
             android:title="@string/menu_mtask"
             />
+        <item
+            android:id="@+id/nav_sklad"
+            android:icon="@drawable/ic_menu_sklad"
+            android:title="@string/menu_sklad"
+            />
     </group>
 </menu>

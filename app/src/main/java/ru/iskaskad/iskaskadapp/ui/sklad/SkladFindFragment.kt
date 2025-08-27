@@ -9,8 +9,11 @@ import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.widget.SwitchCompat
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 //import kotlinx.android.synthetic.main.sklad_find_fragment.*
 import ru.iskaskad.iskaskadapp.ISKaskadAPP
@@ -90,7 +93,7 @@ class SkladFindFragment : Fragment() {
         _binding = SkladFindFragmentBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        setHasOptionsMenu(true)
+        //setHasOptionsMenu(true)
         return view
 
     }
@@ -141,54 +144,84 @@ class SkladFindFragment : Fragment() {
             findNavController().navigate(R.id.action_nav_sklad_to_skladListOstatokFragment, bundle)
 
         }
+
+        val menuHost: MenuHost = requireActivity()
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.skladfindfragmentmenu, menu)
+                AdvSearchItem = menu.findItem(R.id.AdvSearchSwitch)
+                AdvSearchSwitch = AdvSearchItem.actionView?.findViewById(R.id.switchid)
+                AdvSearchItem.isVisible = true
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                // обработка нажатий, если нужно
+                return false
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+//    override fun onCreateContextMenu(
+//        menu: ContextMenu,
+//        v: View,
+//        menuInfo: ContextMenu.ContextMenuInfo?
+//    ) {
+//        super.onCreateContextMenu(menu, v, menuInfo)
+//    }
 
-        super.onCreateOptionsMenu(menu, inflater)
+//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+//
+//        super.onCreateOptionsMenu(menu, inflater)
+//
+//        inflater.inflate(R.menu.skladfindfragmentmenu, menu)
+//
+//        AdvSearchItem = menu.findItem(R.id.AdvSearchSwitch)
+//        AdvSearchSwitch = AdvSearchItem.actionView?.findViewById(R.id.switchid)
+//
+//
+//        AdvSearchItem.isVisible = true
+//
+//    }
 
-        inflater.inflate(R.menu.skladfindfragmentmenu, menu)
 
-        AdvSearchItem = menu.findItem(R.id.AdvSearchSwitch)
-        AdvSearchSwitch = AdvSearchItem.actionView?.findViewById(R.id.switchid)
-
-
-        AdvSearchItem.isVisible = true
-
-    }
-
-
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        super.onPrepareOptionsMenu(menu)
-
-        AdvSearchSwitch?.isChecked = AppVM.AdvSearchChecked
-
-        return
-    }
+//    override fun onPrepareOptionsMenu(menu: Menu) {
+//        super.onPrepareOptionsMenu(menu)
+//
+//        AdvSearchSwitch?.isChecked = AppVM.AdvSearchChecked
+//
+//        return
+//    }
 
 
     override fun onResume() {
         super.onResume()
         ISKaskadAPP.sendLogMessage(LogTAG, "OnResume")
 
-        if (ISKaskadAPP.LOGIN_ID == "")
-        {
-            val navController = findNavController()
-            val Params= Bundle()
-            Params.putInt(ISKaskadAPP.REQUEST_PARAM_RUNMODE, R.id.radio_Sklad)
-            navController.navigate(R.id.nav_login, Params)
-        }
+//        if (ISKaskadAPP.LOGIN_ID == "")
+//        {
+//            val navController = findNavController()
+//            val Params= Bundle()
+//            Params.putInt(ISKaskadAPP.REQUEST_PARAM_RUNMODE, R.id.radio_Sklad)
+//            navController.navigate(R.id.nav_login, Params)
+//        }
 
-
-        context?.registerReceiver(broadCastReceiver, IntentFilter(ISKaskadAPP.SCAN_ACTION))
-
+        // Используйте requireContext().registerReceiver вместо context?.registerReceiver
+        requireContext().registerReceiver(
+            broadCastReceiver,
+            IntentFilter(ISKaskadAPP.SCAN_ACTION),
+            Context.RECEIVER_EXPORTED // добавлено для соответствия новым требованиям API 33+
+        )
     }
-
 
     override fun onPause() {
         ISKaskadAPP.sendLogMessage(LogTAG, "OnPause")
 
-        context?.unregisterReceiver(broadCastReceiver)
+        // Используйте try/catch для unregisterReceiver, чтобы избежать IllegalArgumentException
+        try {
+            requireContext().unregisterReceiver(broadCastReceiver)
+        } catch (e: IllegalArgumentException) {
+            // Receiver не был зарегистрирован или уже удалён
+        }
         AdvSearchSwitch?.let{
             AppVM.AdvSearchChecked = AdvSearchSwitch!!.isChecked
 

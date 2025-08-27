@@ -290,7 +290,11 @@ class SkladListOstatokFragment : Fragment() {
         super.onResume()
         ISKaskadAPP.sendLogMessage(LogTAG, "OnResume")
 
-        context?.registerReceiver(broadCastReceiver, IntentFilter(ISKaskadAPP.SCAN_ACTION))
+        requireContext().registerReceiver(
+            broadCastReceiver,
+            IntentFilter(ISKaskadAPP.SCAN_ACTION),
+            Context.RECEIVER_EXPORTED // добавлено для соответствия новым требованиям API 33+
+        )
     }
 
 
