@@ -1,12 +1,15 @@
 package ru.iskaskad.iskaskadapp.ui.sklad
 
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.os.Build
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -102,6 +105,7 @@ class fragment_sklad_out_dt : Fragment() {
         AppVM.loadGrZapInfo(SearchStr)
     }
 
+    @SuppressLint("UnspecifiedRegisterReceiverFlag")
     override fun onResume() {
         super.onResume()
         ISKaskadAPP.sendLogMessage(LogTAG, "OnResume")
@@ -114,14 +118,28 @@ class fragment_sklad_out_dt : Fragment() {
             navController.navigate(R.id.nav_login, Params)
         }
 
-        context?.registerReceiver(broadCastReceiver, IntentFilter(ISKaskadAPP.SCAN_ACTION))
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            requireContext().registerReceiver(
+                broadCastReceiver,
+                IntentFilter(ISKaskadAPP.SCAN_ACTION),
+                Context.RECEIVER_EXPORTED
+            )
+        } else {
+            requireContext().registerReceiver(
+                broadCastReceiver,
+                IntentFilter(ISKaskadAPP.SCAN_ACTION)
+            )
+        }
     }
 
     override fun onPause() {
         ISKaskadAPP.sendLogMessage(LogTAG, "OnPause")
 
-        context?.unregisterReceiver(broadCastReceiver)
-
+        try {
+            requireContext().unregisterReceiver(broadCastReceiver)
+        } catch (e: IllegalArgumentException) {
+            // Receiver не был зарегистрирован или уже удалён
+        }
         super.onPause()
     }
 

@@ -1,14 +1,17 @@
 package ru.iskaskad.iskaskadapp.ui.sklad
 
 
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.os.Build
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.widget.SwitchCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
@@ -193,24 +196,23 @@ class SkladFindFragment : Fragment() {
 //    }
 
 
+    @SuppressLint("UnspecifiedRegisterReceiverFlag")
     override fun onResume() {
         super.onResume()
         ISKaskadAPP.sendLogMessage(LogTAG, "OnResume")
 
-//        if (ISKaskadAPP.LOGIN_ID == "")
-//        {
-//            val navController = findNavController()
-//            val Params= Bundle()
-//            Params.putInt(ISKaskadAPP.REQUEST_PARAM_RUNMODE, R.id.radio_Sklad)
-//            navController.navigate(R.id.nav_login, Params)
-//        }
-
-        // Используйте requireContext().registerReceiver вместо context?.registerReceiver
-        requireContext().registerReceiver(
-            broadCastReceiver,
-            IntentFilter(ISKaskadAPP.SCAN_ACTION),
-            Context.RECEIVER_EXPORTED // добавлено для соответствия новым требованиям API 33+
-        )
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            requireContext().registerReceiver(
+                broadCastReceiver,
+                IntentFilter(ISKaskadAPP.SCAN_ACTION),
+                Context.RECEIVER_EXPORTED
+            )
+        } else {
+            requireContext().registerReceiver(
+                broadCastReceiver,
+                IntentFilter(ISKaskadAPP.SCAN_ACTION)
+            )
+        }
     }
 
     override fun onPause() {

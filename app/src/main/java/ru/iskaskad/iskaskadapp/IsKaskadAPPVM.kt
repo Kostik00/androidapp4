@@ -696,7 +696,7 @@ class IsKaskadAPPVM(application: Application) : AndroidViewModel(application) {
             try {
                 val ResultStr = URL(UrlStr).readText()
 
-                delay(3000)
+                        // delay(3000)
 
                 ISKaskadAPP.sendLogMessage(LogTAG, "URL QRY COMPLETE ID=$QryID")
 

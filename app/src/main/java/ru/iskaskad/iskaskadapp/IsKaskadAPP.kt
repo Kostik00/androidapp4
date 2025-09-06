@@ -3,8 +3,10 @@ package ru.iskaskad.iskaskadapp
 import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.os.Build
 import android.util.Log
@@ -206,6 +208,15 @@ class ISKaskadAPP : Application() {
         }
     }
 
-
+    override fun registerReceiver(
+        receiver: BroadcastReceiver?,
+        filter: IntentFilter?
+    ): Intent? {
+        if (Build.VERSION.SDK_INT >= 34 && getApplicationInfo().targetSdkVersion >= 34) {
+            return super.registerReceiver(receiver, filter, RECEIVER_NOT_EXPORTED)
+        } else {
+            return super.registerReceiver(receiver, filter)
+        }
+    }
 
 }

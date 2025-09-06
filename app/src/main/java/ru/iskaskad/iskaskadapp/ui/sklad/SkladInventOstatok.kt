@@ -1,15 +1,18 @@
 package ru.iskaskad.iskaskadapp.ui.sklad
 
 
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -228,18 +231,34 @@ class SkladInventOstatok : Fragment() {
 
 
 
+    @SuppressLint("UnspecifiedRegisterReceiverFlag")
     override fun onResume() {
         super.onResume()
         ISKaskadAPP.sendLogMessage(LogTAG, "OnResume")
 
-        context?.registerReceiver(broadCastReceiver, IntentFilter(ISKaskadAPP.SCAN_ACTION))
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            requireContext().registerReceiver(
+                broadCastReceiver,
+                IntentFilter(ISKaskadAPP.SCAN_ACTION),
+                Context.RECEIVER_EXPORTED
+            )
+        } else {
+            requireContext().registerReceiver(
+                broadCastReceiver,
+                IntentFilter(ISKaskadAPP.SCAN_ACTION)
+            )
+        }
     }
 
     override fun onPause() {
         ISKaskadAPP.sendLogMessage(LogTAG, "OnPause")
 
-        context?.unregisterReceiver(broadCastReceiver)
-        super.onPause()
+        try {
+            requireContext().unregisterReceiver(broadCastReceiver)
+        } catch (e: IllegalArgumentException) {
+            // Receiver не был зарегистрирован или уже удалён
+        }
+       super.onPause()
     }
 
 }
