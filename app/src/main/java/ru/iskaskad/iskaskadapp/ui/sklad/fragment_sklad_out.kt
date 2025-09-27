@@ -114,7 +114,7 @@ class fragment_sklad_out : Fragment() {
             requireContext().registerReceiver(
                 broadCastReceiver,
                 IntentFilter(ISKaskadAPP.SCAN_ACTION),
-                Context.RECEIVER_EXPORTED
+                Context.RECEIVER_NOT_EXPORTED
             )
         } else {
             requireContext().registerReceiver(

@@ -1,20 +1,12 @@
 package ru.iskaskad.iskaskadapp.ui.mtask
 
 import android.app.AlertDialog
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
-import android.media.RingtoneManager
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.registerReceiver
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import ru.iskaskad.iskaskadapp.ISKaskadAPP
@@ -22,12 +14,13 @@ import ru.iskaskad.iskaskadapp.IsKaskadAPPVM
 import ru.iskaskad.iskaskadapp.databinding.FragmentMtaskListBinding
 import ru.iskaskad.iskaskadapp.dto.MTaskInfo
 import ru.iskaskad.iskaskadapp.service.MTaskService
+import ru.iskaskad.iskaskadapp.ui.BaseFragment
 
 /**
  * A fragment representing a list of Items.
  */
-class MTaskFragment : Fragment() {
-    val LogTAG = "MTaskFragment"
+class MTaskFragment : BaseFragment ()  {
+    override var  logTAG: String = "MTaskFragment"
 
     private var _binding: FragmentMtaskListBinding? = null
     private val binding get() = _binding!!
@@ -36,10 +29,7 @@ class MTaskFragment : Fragment() {
     private val AppVM: IsKaskadAPPVM by activityViewModels()
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
 
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -141,13 +131,10 @@ class MTaskFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        ISKaskadAPP.sendLogMessage(LogTAG, "Resume")
+        ISKaskadAPP.sendLogMessage(logTAG, "Resume")
 
-        val filter = IntentFilter(ISKaskadAPP.SCAN_ACTION)
 
-        registerReceiver(this.requireContext() , broadCastReceiver, filter, ContextCompat.RECEIVER_NOT_EXPORTED)
-
-        ISKaskadAPP.sendLogMessage(LogTAG, "loadMTaskList")
+        ISKaskadAPP.sendLogMessage(logTAG, "loadMTaskList")
         AppVM.loadMTaskList()
 
         kotlin.runCatching {
@@ -160,53 +147,33 @@ class MTaskFragment : Fragment() {
 
     override fun onPause() {
 
-        this.requireContext().unregisterReceiver(broadCastReceiver)
-        ISKaskadAPP.sendLogMessage(LogTAG, "Pause")
+        ISKaskadAPP.sendLogMessage(logTAG, "Pause")
 
         val intent = Intent(activity, MTaskService::class.java)
-
         requireContext().startService(intent)
 
         super.onPause()
     }
 
+override fun onBarcode(barCode: String) {
+    when {
+        barCode.startsWith(ISKaskadAPP.BARCODE_DATA_KEY_PASP_PLACE) -> {
+            val Key_Pasp_Place:String = barCode.replace(ISKaskadAPP.BARCODE_DATA_KEY_PASP_PLACE, "")
 
+            AppVM.loadPaspPlaceInfo(Key_Pasp_Place)
+        }
+        barCode.startsWith(ISKaskadAPP.BARCODE_DATA_KEY_PASP) -> {
+            val Key_Pasp:String = barCode.replace(ISKaskadAPP.BARCODE_DATA_KEY_PASP, "")
 
-    private val broadCastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(contxt: Context?, intent: Intent?) {
-            /*
-                        val barcodeByteArray = intent!!.getByteArrayExtra(IsKaskadAPP.BARCODE_NAME)
-                        val barcodeLength = intent.getIntExtra(IsKaskadAPP.BARCODE_LENGTH, 0)
-                        var barcode = String(barcodeByteArray, 0, barcodeLength)
-            */
-            val barcode = ISKaskadAPP.readBarCode(intent)
-
-
-            ISKaskadAPP.sendLogMessage(LogTAG, "PARSE BARCODE $barcode")
-
-
-            when {
-                barcode.startsWith(ISKaskadAPP.BARCODE_DATA_KEY_PASP_PLACE) -> {
-                    val Key_Pasp_Place:String = barcode.replace(ISKaskadAPP.BARCODE_DATA_KEY_PASP_PLACE, "")
-
-                    AppVM.loadPaspPlaceInfo(Key_Pasp_Place)
-                }
-                barcode.startsWith(ISKaskadAPP.BARCODE_DATA_KEY_PASP) -> {
-                    val Key_Pasp:String = barcode.replace(ISKaskadAPP.BARCODE_DATA_KEY_PASP, "")
-
-                    checkRunPasp(Key_Pasp)
-                }
-                else -> {
-                    Toast.makeText(
-                        context,
-                        "Данный тип штрихкода не поддерживается:'$barcode'",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-            }
-
+            checkRunPasp(Key_Pasp)
+        }
+        else -> {
+            super.onBarcode(barCode)
         }
     }
+    }
+
+
 
 
     fun checkRunPasp(Key_Pasp: String){
@@ -234,19 +201,6 @@ class MTaskFragment : Fragment() {
         else playWarning()
 
     }
-
-    private fun playWarning() {
-        try {
-            val notification: Uri =  RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-            val r = RingtoneManager.getRingtone(context, notification)
-            r.play()
-        } catch (e: Exception) {
-            e.printStackTrace()
-            ISKaskadAPP.sendLogMessage(LogTAG, "Error (playWarning): ${e.toString()}")
-        }
-
-    }
-
 
 
 }
