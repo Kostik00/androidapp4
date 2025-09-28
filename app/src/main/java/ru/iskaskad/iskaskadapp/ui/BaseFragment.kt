@@ -1,5 +1,6 @@
 package ru.iskaskad.iskaskadapp.ui
 
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -36,10 +37,11 @@ open class BaseFragment : Fragment() {
 
 
 
+    @SuppressLint("UnspecifiedRegisterReceiverFlag")
     override fun onResume() {
         super.onResume()
 
-        ISKaskadAPP.sendLogMessage(logTAG, "OnResume Trying to install broadCastReceiver")
+        ISKaskadAPP.sendLogMessage(logTAG, "Попытка установить broadCastReceiver")
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             requireContext().registerReceiver(
@@ -47,26 +49,28 @@ open class BaseFragment : Fragment() {
                 IntentFilter(ISKaskadAPP.SCAN_ACTION),
                 Context.RECEIVER_NOT_EXPORTED
             )
-            ISKaskadAPP.sendLogMessage(logTAG, "OnResume new version installed")
+            ISKaskadAPP.sendLogMessage(logTAG, "Использована новая версия registerReceiver")
 
         } else {
             requireContext().registerReceiver(
                 broadCastReceiver,
                 IntentFilter(ISKaskadAPP.SCAN_ACTION)
             )
-            ISKaskadAPP.sendLogMessage(logTAG, "OnResume old version installed")
+            ISKaskadAPP.sendLogMessage(logTAG, "Использована старая версия registerReceiver")
         }
 
-        ISKaskadAPP.sendLogMessage(logTAG, "OnResume end of Trying to install broadCastReceiver")
+        ISKaskadAPP.sendLogMessage(logTAG, "Завершена попытка установки broadCastReceiver")
 
 
     }
 
     override fun onPause() {
         try {
+            ISKaskadAPP.sendLogMessage(logTAG, "Попытка удалить broadCastReceiver")
             requireContext().unregisterReceiver(broadCastReceiver)
+            ISKaskadAPP.sendLogMessage(logTAG, "Попытка удалить broadCastReceiver завершена")
         } catch (e: IllegalArgumentException) {
-            // Receiver не был зарегистрирован или уже удалён
+            ISKaskadAPP.sendLogMessage(logTAG, "Ошибка при удалении broadCastReceiver: ${e.toString()}")
         }
 
         super.onPause()
@@ -75,9 +79,11 @@ open class BaseFragment : Fragment() {
 
     fun playWarning() {
         try {
+            ISKaskadAPP.sendLogMessage(logTAG, "Попытка запустить WARNING")
             val notification: Uri =  RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
             val r = RingtoneManager.getRingtone(context, notification)
             r.play()
+            ISKaskadAPP.sendLogMessage(logTAG, "Завершена попытка запустить WARNING")
         } catch (e: Exception) {
             e.printStackTrace()
             ISKaskadAPP.sendLogMessage(logTAG, "Error (playWarning): ${e.toString()}")
