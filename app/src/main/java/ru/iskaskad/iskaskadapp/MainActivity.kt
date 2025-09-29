@@ -28,7 +28,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var binding: ActivityMainBinding
+    lateinit var binding: ActivityMainBinding
+
+    fun setTitleBar(title: String) {
+        supportActionBar?.title = title
+    }
 
     val startForResult = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()

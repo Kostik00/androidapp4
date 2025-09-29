@@ -25,6 +25,8 @@ import ru.iskaskad.iskaskadapp.ui.BaseFragment
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
+import kotlin.collections.containsKey
+import kotlin.collections.get
 
 class SkladListOstatokFragment : BaseFragment() {
 
@@ -165,21 +167,18 @@ class SkladListOstatokFragment : BaseFragment() {
     }
 
     fun FillCaption() {
-        // -- TODO:  Исправить caption
-//        if (ParamBundle.containsKey("Key_Pasp_Place") ) {
-//            if (adapter_FragmentList.items.count() > 0) {
-//                val P = adapter_FragmentList.items[0]
-//                mainActivity.TBTitle = P.getParam("Cod_Pasp_Place").StrValue
-//            }
-//            else
-//            {
-//                mainActivity.TBTitle = "Данных не найдено"
-//
-//            }
-//        }
-//        else
-//            mainActivity.TBTitle = "Результаты поиска"
-
+        mainActivity.setTitleBar (
+            if (ParamBundle.containsKey("Key_Pasp_Place")) {
+                if (adapter_FragmentList.items.isNotEmpty()) {
+                    val P = adapter_FragmentList.items[0]
+                    "Остатки на: ${P.getParam("Cod_Pasp_Place").StrValue}"
+                } else {
+                    "Остатки на: Данных не найдено"
+                }
+            } else {
+                "Результаты поиска"
+            }
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
