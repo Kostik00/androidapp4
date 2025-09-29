@@ -9,12 +9,9 @@ import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.appcompat.widget.SwitchCompat
-import androidx.core.content.ContextCompat
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
@@ -22,16 +19,16 @@ import androidx.navigation.fragment.findNavController
 import ru.iskaskad.iskaskadapp.ISKaskadAPP
 import ru.iskaskad.iskaskadapp.IsKaskadAPPVM
 import ru.iskaskad.iskaskadapp.R
-import ru.iskaskad.iskaskadapp.databinding.FragmentPaspInfoMkBinding
 import ru.iskaskad.iskaskadapp.databinding.SkladFindFragmentBinding
+import ru.iskaskad.iskaskadapp.ui.BaseFragment
 
-class SkladFindFragment : Fragment() {
+class SkladFindFragment : BaseFragment() {
+    override var logTAG = "SkladFindFragment"
 
     private var _binding: SkladFindFragmentBinding? = null
     private val binding get() = _binding!!
 
 
-    val LogTAG = "SkladFindFragment"
 
     private  var AdvSearchSwitch: SwitchCompat? = null
     private lateinit var AdvSearchItem  : MenuItem
@@ -39,52 +36,41 @@ class SkladFindFragment : Fragment() {
     //private val mainActivity get() =  activity !! as MainActivity
     private val AppVM: IsKaskadAPPVM by activityViewModels()
 
-    private val broadCastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(contxt: Context?, intent: Intent?) {
 
-            val barcode = ISKaskadAPP.readBarCode(intent)
+    override fun onBarcode(barCode: String) {
+        when {
+            barCode.startsWith(ISKaskadAPP.BARCODE_DATA_KEY_PASP_PLACE) -> {
+                val Key_Pasp_Place:String = barCode.replace(ISKaskadAPP.BARCODE_DATA_KEY_PASP_PLACE, "")
 
-            ISKaskadAPP.sendLogMessage(LogTAG, "PARSE BARCODE $barcode")
+                val bundle = Bundle()
+                bundle.putString("Key_Pasp_Place", Key_Pasp_Place)
+                findNavController().navigate(R.id.action_nav_sklad_to_skladListOstatokFragment, bundle)
 
-            when {
-                barcode.startsWith(ISKaskadAPP.BARCODE_DATA_KEY_PASP_PLACE) -> {
-                    val Key_Pasp_Place:String = barcode.replace(ISKaskadAPP.BARCODE_DATA_KEY_PASP_PLACE, "")
-
-                    val bundle = Bundle()
-                    bundle.putString("Key_Pasp_Place", Key_Pasp_Place)
-                    findNavController().navigate(R.id.action_nav_sklad_to_skladListOstatokFragment, bundle)
-
-                }
-                barcode.startsWith(ISKaskadAPP.BARCODE_DATA_KEY_NACL_STR) -> {
-                    val Key_Nacl_Str:String = barcode.replace(ISKaskadAPP.BARCODE_DATA_KEY_NACL_STR, "")
-
-                    val bundle = Bundle()
-                    bundle.putString("Key_Nacl_Str", Key_Nacl_Str)
-
-                    findNavController().navigate(R.id.action_nav_sklad_to_skladListOstatokFragment, bundle)
-
-                }
-                barcode.startsWith(ISKaskadAPP.BARCODE_DATA_KEY_NACL_STR_SOST) -> {
-                    val Key_Nacl_Str_Sost:String = barcode.replace(ISKaskadAPP.BARCODE_DATA_KEY_NACL_STR_SOST, "")
-
-                    val bundle = Bundle()
-                    bundle.putString("Key_Nacl_Str_Sost", Key_Nacl_Str_Sost)
-
-                    findNavController().navigate(R.id.action_nav_sklad_to_skladListOstatokFragment, bundle)
-
-                }
-                else -> {
-                    Toast.makeText(
-                        context,
-                        "Данный тип штрихкода не поддерживается:'$barcode'",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
             }
+            barCode.startsWith(ISKaskadAPP.BARCODE_DATA_KEY_NACL_STR) -> {
+                val Key_Nacl_Str:String = barCode.replace(ISKaskadAPP.BARCODE_DATA_KEY_NACL_STR, "")
 
+                val bundle = Bundle()
+                bundle.putString("Key_Nacl_Str", Key_Nacl_Str)
+
+                findNavController().navigate(R.id.action_nav_sklad_to_skladListOstatokFragment, bundle)
+
+            }
+            barCode.startsWith(ISKaskadAPP.BARCODE_DATA_KEY_NACL_STR_SOST) -> {
+                val Key_Nacl_Str_Sost:String = barCode.replace(ISKaskadAPP.BARCODE_DATA_KEY_NACL_STR_SOST, "")
+
+                val bundle = Bundle()
+                bundle.putString("Key_Nacl_Str_Sost", Key_Nacl_Str_Sost)
+
+                findNavController().navigate(R.id.action_nav_sklad_to_skladListOstatokFragment, bundle)
+
+            }
+            else -> {
+                super.onBarcode(barCode)
+            }
         }
-    }
 
+    }
 
 
     override fun onCreateView(
@@ -196,40 +182,6 @@ class SkladFindFragment : Fragment() {
 //    }
 
 
-    @SuppressLint("UnspecifiedRegisterReceiverFlag")
-    override fun onResume() {
-        super.onResume()
-        ISKaskadAPP.sendLogMessage(LogTAG, "OnResume")
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            requireContext().registerReceiver(
-                broadCastReceiver,
-                IntentFilter(ISKaskadAPP.SCAN_ACTION),
-                Context.RECEIVER_EXPORTED
-            )
-        } else {
-            requireContext().registerReceiver(
-                broadCastReceiver,
-                IntentFilter(ISKaskadAPP.SCAN_ACTION)
-            )
-        }
-    }
-
-    override fun onPause() {
-        ISKaskadAPP.sendLogMessage(LogTAG, "OnPause")
-
-        // Используйте try/catch для unregisterReceiver, чтобы избежать IllegalArgumentException
-        try {
-            requireContext().unregisterReceiver(broadCastReceiver)
-        } catch (e: IllegalArgumentException) {
-            // Receiver не был зарегистрирован или уже удалён
-        }
-        AdvSearchSwitch?.let{
-            AppVM.AdvSearchChecked = AdvSearchSwitch!!.isChecked
-
-        }
-        super.onPause()
-    }
 
 
 

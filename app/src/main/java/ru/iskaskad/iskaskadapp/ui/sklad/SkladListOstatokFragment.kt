@@ -23,10 +23,11 @@ import ru.iskaskad.iskaskadapp.MainActivity
 import ru.iskaskad.iskaskadapp.R
 import ru.iskaskad.iskaskadapp.adapters.SkladFragmentAdapter
 import ru.iskaskad.iskaskadapp.dto.SkladFragmentInfo
+import ru.iskaskad.iskaskadapp.ui.BaseFragment
 import java.util.*
 
 //@Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
-class SkladListOstatokFragment : Fragment() {
+class SkladListOstatokFragment : BaseFragment() {
 
     val LogTAG="SkladListOstatokFragment"
 

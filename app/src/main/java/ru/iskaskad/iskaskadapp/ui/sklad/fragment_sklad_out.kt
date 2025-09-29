@@ -1,31 +1,23 @@
 package ru.iskaskad.iskaskadapp.ui.sklad
 
 import android.annotation.SuppressLint
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
-import android.os.Build
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
-import androidx.appcompat.widget.SwitchCompat
-import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import ru.iskaskad.iskaskadapp.ISKaskadAPP
 import ru.iskaskad.iskaskadapp.IsKaskadAPPVM
 import ru.iskaskad.iskaskadapp.R
-import ru.iskaskad.iskaskadapp.adapters.FindPaspAdapter
 import ru.iskaskad.iskaskadapp.adapters.SkladGrZapAdapter
 import ru.iskaskad.iskaskadapp.databinding.FragmentSkladOutBinding
-import ru.iskaskad.iskaskadapp.dto.PaspInfo
 import ru.iskaskad.iskaskadapp.dto.SkladGrZapInfo
+import ru.iskaskad.iskaskadapp.ui.BaseFragment
 
 
-class fragment_sklad_out : Fragment() {
+class fragment_sklad_out : BaseFragment() {
+
+    override var logTAG = "SkladOMOut"
 
     private var _binding: FragmentSkladOutBinding? = null
     private val binding get() = _binding!!
@@ -33,30 +25,25 @@ class fragment_sklad_out : Fragment() {
     private val AppVM : IsKaskadAPPVM by activityViewModels()
     private lateinit var GrZapAdapter: SkladGrZapAdapter
 
-    val LogTAG = "SkladOMOut"
 
-    private val broadCastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(contxt: Context?, intent: Intent?) {
-            val barcode = ISKaskadAPP.readBarCode(intent)
 
-            when {
-                barcode.startsWith(ISKaskadAPP.BARCODE_DATA_GR_ZAP) -> {
-                    val Key_GrZap:String = barcode.replace(ISKaskadAPP.BARCODE_DATA_GR_ZAP, "")
-                    runSearchByKey(Key_GrZap.toInt())
+    override fun onBarcode(barCode: String) {
+        super.onBarcode(barCode)
+        when {
+            barCode.startsWith(ISKaskadAPP.BARCODE_DATA_GR_ZAP) -> {
+                val Key_GrZap:String = barCode.replace(ISKaskadAPP.BARCODE_DATA_GR_ZAP, "")
+                runSearchByKey(Key_GrZap.toInt())
 
-                }
-                else -> {
-                    Toast.makeText(
-                        context,
-                        "Данный тип штрихкода не поддерживается:'$barcode'",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-
+            }
+            else -> {
+               super.onBarcode(barCode)
             }
 
         }
+
     }
+
+
 
 
     override fun onCreateView(
@@ -100,7 +87,7 @@ class fragment_sklad_out : Fragment() {
     @SuppressLint("UnspecifiedRegisterReceiverFlag")
     override fun onResume() {
         super.onResume()
-        ISKaskadAPP.sendLogMessage(LogTAG, "OnResume")
+        ISKaskadAPP.sendLogMessage(logTAG, "OnResume")
 
         if (ISKaskadAPP.LOGIN_ID == "")
         {
@@ -110,28 +97,12 @@ class fragment_sklad_out : Fragment() {
             navController.navigate(R.id.nav_login, Params)
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            requireContext().registerReceiver(
-                broadCastReceiver,
-                IntentFilter(ISKaskadAPP.SCAN_ACTION),
-                Context.RECEIVER_NOT_EXPORTED
-            )
-        } else {
-            requireContext().registerReceiver(
-                broadCastReceiver,
-                IntentFilter(ISKaskadAPP.SCAN_ACTION)
-            )
-        }
     }
 
     override fun onPause() {
-        ISKaskadAPP.sendLogMessage(LogTAG, "OnPause")
+        ISKaskadAPP.sendLogMessage(logTAG, "OnPause")
 
-        try {
-            requireContext().unregisterReceiver(broadCastReceiver)
-        } catch (e: IllegalArgumentException) {
-            // Receiver не был зарегистрирован или уже удалён
-        }
+
 
         super.onPause()
     }

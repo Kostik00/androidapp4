@@ -9,8 +9,6 @@ import android.os.Build
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
-import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
@@ -23,10 +21,11 @@ import ru.iskaskad.iskaskadapp.R
 import ru.iskaskad.iskaskadapp.adapters.SkladOutMTabAdapter
 import ru.iskaskad.iskaskadapp.databinding.FragmentSkladOutDtBinding
 import ru.iskaskad.iskaskadapp.dto.SkladIdMatInfo
-import java.net.URLEncoder
+import ru.iskaskad.iskaskadapp.ui.BaseFragment
 
 
-class fragment_sklad_out_dt : Fragment() {
+class fragment_sklad_out_dt : BaseFragment() {
+    override var logTAG = "SkladOMOutDt"
 
     private var _binding: FragmentSkladOutDtBinding? = null
     private val binding get() = _binding!!
@@ -38,33 +37,27 @@ class fragment_sklad_out_dt : Fragment() {
 
     private lateinit var ParamBundle :Bundle
 
-    val LogTAG = "SkladOMOutDt"
+    override fun onBarcode(barCode: String) {
+        when {
+            barCode.startsWith(ISKaskadAPP.BARCODE_DATA_GR_ZAP) -> {
+                val Key_GrZap:String = barCode.replace(ISKaskadAPP.BARCODE_DATA_KEY_PASP_PLACE, "")
+                runSearchByKey(Key_GrZap.toInt())
 
-    private val broadCastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(contxt: Context?, intent: Intent?) {
-            val barcode = ISKaskadAPP.readBarCode(intent)
+            }
+            barCode.startsWith(ISKaskadAPP.BARCODE_DATA_KEY_SUB_PODR) -> {
+                val Key_Sub_Ver:String = barCode.replace(ISKaskadAPP.BARCODE_DATA_KEY_SUB_PODR, "")
+                AppVM.loadSubjList("&Key_Sub_Ver=$Key_Sub_Ver")
 
-            when {
-                barcode.startsWith(ISKaskadAPP.BARCODE_DATA_GR_ZAP) -> {
-                    val Key_GrZap:String = barcode.replace(ISKaskadAPP.BARCODE_DATA_KEY_PASP_PLACE, "")
-                    runSearchByKey(Key_GrZap.toInt())
-
-                }
-                barcode.startsWith(ISKaskadAPP.BARCODE_DATA_KEY_SUB_PODR) -> {
-                    val Key_Sub_Ver:String = barcode.replace(ISKaskadAPP.BARCODE_DATA_KEY_SUB_PODR, "")
-                    AppVM.loadSubjList("&Key_Sub_Ver=$Key_Sub_Ver")
-
-                }                else -> {
-                    Toast.makeText(
-                        context,
-                        "Данный тип штрихкода не поддерживается:'$barcode'",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
+            }
+            else -> {
+                super.onBarcode(barCode)
             }
 
         }
+
     }
+
+
 
 
     override fun onCreateView(
@@ -105,43 +98,7 @@ class fragment_sklad_out_dt : Fragment() {
         AppVM.loadGrZapInfo(SearchStr)
     }
 
-    @SuppressLint("UnspecifiedRegisterReceiverFlag")
-    override fun onResume() {
-        super.onResume()
-        ISKaskadAPP.sendLogMessage(LogTAG, "OnResume")
 
-        if (ISKaskadAPP.LOGIN_ID == "")
-        {
-            val navController = findNavController()
-            val Params= Bundle()
-            Params.putInt(ISKaskadAPP.REQUEST_PARAM_RUNMODE, R.id.radio_Sklad)
-            navController.navigate(R.id.nav_login, Params)
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            requireContext().registerReceiver(
-                broadCastReceiver,
-                IntentFilter(ISKaskadAPP.SCAN_ACTION),
-                Context.RECEIVER_EXPORTED
-            )
-        } else {
-            requireContext().registerReceiver(
-                broadCastReceiver,
-                IntentFilter(ISKaskadAPP.SCAN_ACTION)
-            )
-        }
-    }
-
-    override fun onPause() {
-        ISKaskadAPP.sendLogMessage(LogTAG, "OnPause")
-
-        try {
-            requireContext().unregisterReceiver(broadCastReceiver)
-        } catch (e: IllegalArgumentException) {
-            // Receiver не был зарегистрирован или уже удалён
-        }
-        super.onPause()
-    }
 
 
 

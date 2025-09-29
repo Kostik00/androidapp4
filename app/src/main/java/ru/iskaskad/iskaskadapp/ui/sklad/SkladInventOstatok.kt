@@ -1,6 +1,7 @@
 package ru.iskaskad.iskaskadapp.ui.sklad
 
 
+//import kotlinx.android.synthetic.main.sklad_invent_ostatok_fragment.*
 import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -12,12 +13,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-//import kotlinx.android.synthetic.main.sklad_invent_ostatok_fragment.*
 import ru.iskaskad.iskaskadapp.ISKaskadAPP
 import ru.iskaskad.iskaskadapp.IsKaskadAPPVM
 import ru.iskaskad.iskaskadapp.MainActivity
@@ -25,22 +23,20 @@ import ru.iskaskad.iskaskadapp.R
 import ru.iskaskad.iskaskadapp.adapters.BindInfoArray
 import ru.iskaskad.iskaskadapp.adapters.BindInfoItem
 import ru.iskaskad.iskaskadapp.adapters.SkladFragmentHistoryAdapter
-import ru.iskaskad.iskaskadapp.databinding.FragmentPaspInfoMkBinding
-import ru.iskaskad.iskaskadapp.databinding.SkladFindFragmentBinding
 import ru.iskaskad.iskaskadapp.databinding.SkladInventOstatokFragmentBinding
 import ru.iskaskad.iskaskadapp.dto.SkladFragmentHistoryInfo
 import ru.iskaskad.iskaskadapp.dto.SkladFragmentInfo
-import java.util.*
+import ru.iskaskad.iskaskadapp.ui.BaseFragment
 
 
-class SkladInventOstatok : Fragment() {
+class SkladInventOstatok : BaseFragment() {
+    override var logTAG = "SkladInventOstatok"
 
 
     private var _binding: SkladInventOstatokFragmentBinding? = null
     private val binding get() = _binding!!
 
 
-    val LogTAG = "SkladInventOstatok"
 
     private val AppVM: IsKaskadAPPVM by activityViewModels()
 
@@ -64,7 +60,7 @@ class SkladInventOstatok : Fragment() {
 
             val barcode = ISKaskadAPP.readBarCode(intent)
 
-            ISKaskadAPP.sendLogMessage(LogTAG, "PARSE BARCODE $barcode")
+            ISKaskadAPP.sendLogMessage(logTAG, "PARSE BARCODE $barcode")
 
             if ( barcode.startsWith(ISKaskadAPP.BARCODE_DATA_KEY_PASP_PLACE)) {
                 val Key_Pasp_Place:String = barcode.replace(ISKaskadAPP.BARCODE_DATA_KEY_PASP_PLACE, "")
@@ -234,7 +230,7 @@ class SkladInventOstatok : Fragment() {
     @SuppressLint("UnspecifiedRegisterReceiverFlag")
     override fun onResume() {
         super.onResume()
-        ISKaskadAPP.sendLogMessage(LogTAG, "OnResume")
+        ISKaskadAPP.sendLogMessage(logTAG, "OnResume")
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             requireContext().registerReceiver(
@@ -251,7 +247,7 @@ class SkladInventOstatok : Fragment() {
     }
 
     override fun onPause() {
-        ISKaskadAPP.sendLogMessage(LogTAG, "OnPause")
+        ISKaskadAPP.sendLogMessage(logTAG, "OnPause")
 
         try {
             requireContext().unregisterReceiver(broadCastReceiver)
