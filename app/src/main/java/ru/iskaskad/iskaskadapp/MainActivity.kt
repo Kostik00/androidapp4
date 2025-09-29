@@ -20,7 +20,6 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
 import ru.iskaskad.iskaskadapp.databinding.ActivityMainBinding
-import kotlin.div
 import ru.iskaskad.iskaskadapp.ISKaskadAPP.Companion as GlobalApp
 
 class MainActivity : AppCompatActivity() {
