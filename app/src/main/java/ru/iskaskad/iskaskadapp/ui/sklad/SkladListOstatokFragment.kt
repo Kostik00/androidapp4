@@ -22,141 +22,149 @@ import ru.iskaskad.iskaskadapp.R
 import ru.iskaskad.iskaskadapp.adapters.SkladFragmentAdapter
 import ru.iskaskad.iskaskadapp.dto.SkladFragmentInfo
 import ru.iskaskad.iskaskadapp.ui.BaseFragment
-import java.util.*
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
+import androidx.lifecycle.Lifecycle
 
-//@Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class SkladListOstatokFragment : BaseFragment() {
 
-    override var logTAG="SkladListOstatokFragment"
+    override var logTAG = "SkladListOstatokFragment"
 
     private val AppVM: IsKaskadAPPVM by activityViewModels()
 
 
-    private lateinit var mainActivity : MainActivity
+    private lateinit var mainActivity: MainActivity
     private lateinit var MoveOstItemSwitch: SwitchCompat
-    private lateinit var ParamBundle :Bundle
-    private lateinit var root :View
-
+    private lateinit var ParamBundle: Bundle
+    private lateinit var root: View
 
 
     private lateinit var rvFragmentList: RecyclerView
     private lateinit var adapter_FragmentList: SkladFragmentAdapter
 
 
-    private val broadCastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(contxt: Context?, intent: Intent?) {
+    override fun onBarcode(barCode: String) {
+        when {
+            (barCode.startsWith(ISKaskadAPP.BARCODE_DATA_KEY_PASP_PLACE)) -> {
+                val Key_Pasp_Place: String =
+                    barCode.replace(ISKaskadAPP.BARCODE_DATA_KEY_PASP_PLACE, "")
 
-            val barcode = ISKaskadAPP.readBarCode(intent)
+                if (MoveOstItemSwitch.isChecked) {
 
-            ISKaskadAPP.sendLogMessage(logTAG, "PARSE BARCODE $barcode")
+                    var KeyNaclStrList = ""
+                    var KeyNaclStrSostList = ""
 
-            when {
-                (barcode.startsWith(ISKaskadAPP.BARCODE_DATA_KEY_PASP_PLACE)) -> {
-                    val Key_Pasp_Place: String =
-                        barcode.replace(ISKaskadAPP.BARCODE_DATA_KEY_PASP_PLACE, "")
-
-                    if (MoveOstItemSwitch.isChecked) {
-
-                        var KeyNaclStrList = ""
-                        var KeyNaclStrSostList = ""
-
-                        adapter_FragmentList.items.forEach {
-                            if (it.IsChecked) {
-                                val Param = it.getParam("Key_Nacl_Str_Sost")
-                                if (Param.ParamIsNull)
-                                    KeyNaclStrList =
-                                        KeyNaclStrList + "," + it.getParam("Key_Nacl_Str").IntVal.toString()
-                                else
-                                    KeyNaclStrSostList =
-                                        KeyNaclStrSostList + "," + Param.IntVal.toString()
-                            }
+                    adapter_FragmentList.items.forEach {
+                        if (it.IsChecked) {
+                            val Param = it.getParam("Key_Nacl_Str_Sost")
+                            if (Param.ParamIsNull)
+                                KeyNaclStrList =
+                                    KeyNaclStrList + "," + it.getParam("Key_Nacl_Str").IntVal.toString()
+                            else
+                                KeyNaclStrSostList =
+                                    KeyNaclStrSostList + "," + Param.IntVal.toString()
                         }
-
-                        KeyNaclStrList = KeyNaclStrList.replaceFirst(",", "")
-                        KeyNaclStrSostList = KeyNaclStrSostList.replaceFirst(",", "")
-
-                        AppVM.moveItems(KeyNaclStrList, KeyNaclStrSostList, Key_Pasp_Place)
-
-                    }
-                    else {
-                        ParamBundle = Bundle()
-                        ParamBundle.putString("Key_Pasp_Place", Key_Pasp_Place)
-
-                        runSearch()
                     }
 
+                    KeyNaclStrList = KeyNaclStrList.replaceFirst(",", "")
+                    KeyNaclStrSostList = KeyNaclStrSostList.replaceFirst(",", "")
 
+                    AppVM.moveItems(KeyNaclStrList, KeyNaclStrSostList, Key_Pasp_Place)
+
+                } else {
+                    ParamBundle = Bundle()
+                    ParamBundle.putString("Key_Pasp_Place", Key_Pasp_Place)
+
+                    runSearch()
                 }
-                (barcode.startsWith(ISKaskadAPP.BARCODE_DATA_KEY_NACL_STR)) -> {
-                    val Key_Nacl_Str: String =
-                        barcode.replace(ISKaskadAPP.BARCODE_DATA_KEY_NACL_STR, "")
 
-                    if (ParamBundle.containsKey("Key_Pasp_Place") && MoveOstItemSwitch.isChecked) {
-                        val KeyNaclStrList: String = Key_Nacl_Str
-                        val KeyNaclStrSostList = ""
-                        val Key_Pasp_Place  =  ParamBundle.getString("Key_Pasp_Place") ?:""
 
-                        AppVM.moveItems(KeyNaclStrList, KeyNaclStrSostList, Key_Pasp_Place)
+            }
 
-                    }
-                    else {
-                        ParamBundle = Bundle()
-                        ParamBundle.putString("Key_Nacl_Str", Key_Nacl_Str)
+            (barCode.startsWith(ISKaskadAPP.BARCODE_DATA_KEY_NACL_STR)) -> {
+                val Key_Nacl_Str: String =
+                    barCode.replace(ISKaskadAPP.BARCODE_DATA_KEY_NACL_STR, "")
 
-                        runSearch()
-                    }
+                if (ParamBundle.containsKey("Key_Pasp_Place") && MoveOstItemSwitch.isChecked) {
+                    val KeyNaclStrList: String = Key_Nacl_Str
+                    val KeyNaclStrSostList = ""
+                    val Key_Pasp_Place = ParamBundle.getString("Key_Pasp_Place") ?: ""
 
+                    AppVM.moveItems(KeyNaclStrList, KeyNaclStrSostList, Key_Pasp_Place)
+
+                } else {
+                    ParamBundle = Bundle()
+                    ParamBundle.putString("Key_Nacl_Str", Key_Nacl_Str)
+
+                    runSearch()
                 }
-                (barcode.startsWith(ISKaskadAPP.BARCODE_DATA_KEY_NACL_STR_SOST)) -> {
-                    val Key_Nacl_Str_Sost: String =
-                        barcode.replace(ISKaskadAPP.BARCODE_DATA_KEY_NACL_STR_SOST, "")
 
-                    if (ParamBundle.containsKey("Key_Pasp_Place") && MoveOstItemSwitch.isChecked) {
-                        val KeyNaclStrList = ""
-                        val KeyNaclStrSostList: String = Key_Nacl_Str_Sost
-                        val Key_Pasp_Place=ParamBundle.getString("Key_Pasp_Place")!!
+            }
 
-                        AppVM.moveItems(KeyNaclStrList, KeyNaclStrSostList, Key_Pasp_Place)
+            (barCode.startsWith(ISKaskadAPP.BARCODE_DATA_KEY_NACL_STR_SOST)) -> {
+                val Key_Nacl_Str_Sost: String =
+                    barCode.replace(ISKaskadAPP.BARCODE_DATA_KEY_NACL_STR_SOST, "")
 
-                    }
-                    else {
-                        ParamBundle = Bundle()
-                        ParamBundle.putString("Key_Nacl_Str_Sost", Key_Nacl_Str_Sost)
+                if (ParamBundle.containsKey("Key_Pasp_Place") && MoveOstItemSwitch.isChecked) {
+                    val KeyNaclStrList = ""
+                    val KeyNaclStrSostList: String = Key_Nacl_Str_Sost
+                    val Key_Pasp_Place = ParamBundle.getString("Key_Pasp_Place")!!
 
-                        runSearch()
-                    }
+                    AppVM.moveItems(KeyNaclStrList, KeyNaclStrSostList, Key_Pasp_Place)
+
+                } else {
+                    ParamBundle = Bundle()
+                    ParamBundle.putString("Key_Nacl_Str_Sost", Key_Nacl_Str_Sost)
+
+                    runSearch()
                 }
-                else -> {
-                    Toast.makeText(
-                        context,
-                        "Данный тип штрихкода не поддерживается:'$barcode'",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-             }
+            }
+
+            else -> {
+                super.onBarcode(barCode)
+            }
         }
+
     }
 
 
-    override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
 
-        root  = inflater.inflate(R.layout.sklad_list_ostatok_fragment, container, false)
+        root = inflater.inflate(R.layout.sklad_list_ostatok_fragment, container, false)
 
         mainActivity = activity as MainActivity
 
         ParamBundle = requireArguments()
 
-        setHasOptionsMenu(true)
+        // Удалить setHasOptionsMenu(true)
+        // setHasOptionsMenu(true)
 
+        // Новый способ добавления меню
+        val menuHost: MenuHost = requireActivity()
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.skladfragmentmenu, menu)
+                val MoveSearchItem = menu.findItem(R.id.MoveOstItemSwitch)
+                MoveOstItemSwitch =
+                    MoveSearchItem.actionView?.findViewById<SwitchCompat>(R.id.switchid)!!
+            }
 
-
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                // Если требуется обработка выбора пунктов меню, реализуйте здесь
+                return false
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
         initList()
 
         return root
     }
 
-    fun FillCaption()  {
+    fun FillCaption() {
         // -- TODO:  Исправить caption
 //        if (ParamBundle.containsKey("Key_Pasp_Place") ) {
 //            if (adapter_FragmentList.items.count() > 0) {
@@ -177,7 +185,8 @@ class SkladListOstatokFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        AppVM.getFragmentList().observe( viewLifecycleOwner,
+        AppVM.getFragmentList().observe(
+            viewLifecycleOwner,
             {
                 it?.let {
                     //Cod_Pasp_Place.text = it.Cod_Pasp_Place()
@@ -189,24 +198,27 @@ class SkladListOstatokFragment : BaseFragment() {
 
     }
 
-    private var FirstTimeQRY:Boolean=true
+    private var FirstTimeQRY: Boolean = true
 
     private fun initList() {
         rvFragmentList = root.findViewById(R.id.fragmentListRV)
         rvFragmentList.layoutManager = LinearLayoutManager(this.context)
 
-        adapter_FragmentList = SkladFragmentAdapter( AppVM.getFragmentList().value ?: ArrayList<SkladFragmentInfo> () ,  object :  SkladFragmentAdapter.Callback
-        {
-            override fun onItemClicked(item: SkladFragmentInfo)
-            {
-                val bundle = Bundle()
-                bundle.putSerializable("ItemInfo",item)
+        adapter_FragmentList = SkladFragmentAdapter(
+            AppVM.getFragmentList().value ?: ArrayList<SkladFragmentInfo>(),
+            object : SkladFragmentAdapter.Callback {
+                override fun onItemClicked(item: SkladFragmentInfo) {
+                    val bundle = Bundle()
+                    bundle.putSerializable("ItemInfo", item)
 
-                AppVM.SelectedFragment = item
+                    AppVM.SelectedFragment = item
 
-                findNavController().navigate(R.id.action_skladListOstatokFragment_to_skladInventOstatok, bundle)
-            }
-        })
+                    findNavController().navigate(
+                        R.id.action_skladListOstatokFragment_to_skladInventOstatok,
+                        bundle
+                    )
+                }
+            })
         rvFragmentList.adapter = adapter_FragmentList
         if (FirstTimeQRY)
             runSearch()
@@ -215,26 +227,14 @@ class SkladListOstatokFragment : BaseFragment() {
         FirstTimeQRY = false
     }
 
-    fun runSearch(  ) {
+    fun runSearch() {
 
-        AppVM.loadSkladOstatokList( getSearchStr() )
+        AppVM.loadSkladOstatokList(getSearchStr())
 
     }
 
 
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-
-        inflater.inflate(R.menu.skladfragmentmenu, menu)
-
-        val MoveSearchItem = menu.findItem(R.id.MoveOstItemSwitch)
-        // -- todo Исправить
-        MoveOstItemSwitch = MoveSearchItem.actionView?.findViewById<SwitchCompat>(R.id.switchid)!!
-    }
-
-    private fun getSearchStr():String
-    {
+    private fun getSearchStr(): String {
 
         var request = ""
 
@@ -279,46 +279,15 @@ class SkladListOstatokFragment : BaseFragment() {
             request += "&Key_Nacl_Str_Sost=" + encodeStr(ParamBundle.getString("Key_Nacl_Str_Sost"))
 
         if (ParamBundle.containsKey("Cod_Pasp_Place"))
-            request += "&Cod_Pasp_Place=" + encodeStr(ParamBundle.getString("Cod_Pasp_Place" ))
+            request += "&Cod_Pasp_Place=" + encodeStr(ParamBundle.getString("Cod_Pasp_Place"))
 
-        return  request
+        return request
     }
-
-
-
-
-
-    @SuppressLint("UnspecifiedRegisterReceiverFlag")
-    override fun onResume() {
-        super.onResume()
-        ISKaskadAPP.sendLogMessage(logTAG, "OnResume")
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            requireContext().registerReceiver(
-                broadCastReceiver,
-                IntentFilter(ISKaskadAPP.SCAN_ACTION),
-                Context.RECEIVER_EXPORTED
-            )
-        } else {
-            requireContext().registerReceiver(
-                broadCastReceiver,
-                IntentFilter(ISKaskadAPP.SCAN_ACTION)
-            )
-        }
-    }
-
-
-    override fun onPause() {
-        ISKaskadAPP.sendLogMessage(logTAG, "OnPause")
-
-        try {
-            requireContext().unregisterReceiver(broadCastReceiver)
-        } catch (e: IllegalArgumentException) {
-            // Receiver не был зарегистрирован или уже удалён
-        }
-
-        super.onPause()
-    }
-
-
 }
+
+
+
+
+
+
+
