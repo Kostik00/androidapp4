@@ -43,9 +43,9 @@ class FindPaspAdapter(private val callback:Callback ) : RecyclerView.Adapter<Fin
             super.bind(item)
 
             itemView.setOnClickListener {
-                if (adapterPosition != RecyclerView.NO_POSITION)
+                if (bindingAdapterPosition != RecyclerView.NO_POSITION)
                 {
-                    callback.onItemClicked(items[adapterPosition])
+                    callback.onItemClicked(items[bindingAdapterPosition])
                 }
             }
 

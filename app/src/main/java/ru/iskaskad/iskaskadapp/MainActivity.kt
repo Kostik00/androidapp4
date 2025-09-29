@@ -1,6 +1,5 @@
 package ru.iskaskad.iskaskadapp
 
-import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
@@ -15,13 +14,13 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
 import ru.iskaskad.iskaskadapp.databinding.ActivityMainBinding
+import kotlin.div
 import ru.iskaskad.iskaskadapp.ISKaskadAPP.Companion as GlobalApp
 
 class MainActivity : AppCompatActivity() {
@@ -97,7 +96,10 @@ class MainActivity : AppCompatActivity() {
                         view.x = event.rawX - binding.appBarMain.fab.width / 2
                         view.y = event.rawY - binding.appBarMain.fab.height / 2
                     }
-                    MotionEvent.ACTION_UP -> view.setOnTouchListener(null)
+                    MotionEvent.ACTION_UP -> {
+                        view.setOnTouchListener(null)
+                        view.performClick()
+                    }
                     else -> { }
                 }
                 true

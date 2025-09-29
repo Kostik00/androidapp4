@@ -138,27 +138,27 @@ class SkladFragmentAdapter( var items: MutableList<SkladFragmentInfo>, private v
 
 
             SelectedCheckBox.setOnClickListener {
-                if (adapterPosition != RecyclerView.NO_POSITION) {
-                    items[adapterPosition].IsChecked = SelectedCheckBox.isChecked
+                if (bindingAdapterPosition != RecyclerView.NO_POSITION) {
+                    items[bindingAdapterPosition].IsChecked = SelectedCheckBox.isChecked
                 }
             }
 
             itemView.setOnClickListener {
-                if (adapterPosition != RecyclerView.NO_POSITION)
-                    {
-                        callback.onItemClicked(items[adapterPosition])
-                    }
+                if (bindingAdapterPosition != RecyclerView.NO_POSITION)
+                {
+                    callback.onItemClicked(items[bindingAdapterPosition])
+                }
             }
             CollapseSertInfoBtn.setOnClickListener {
-                if (adapterPosition != RecyclerView.NO_POSITION) {
-                    items[adapterPosition].SetInfoExpanded = false
+                if (bindingAdapterPosition != RecyclerView.NO_POSITION) {
+                    items[bindingAdapterPosition].SetInfoExpanded = false
                     FragmentSertInfoMinGr.visibility = View.VISIBLE
                     FragmentSertInfoMaxGr.visibility = View.GONE
                 }
             }
             ExpandSertInfoBtn.setOnClickListener {
-                if (adapterPosition != RecyclerView.NO_POSITION) {
-                    items[adapterPosition].SetInfoExpanded = true
+                if (bindingAdapterPosition != RecyclerView.NO_POSITION) {
+                    items[bindingAdapterPosition].SetInfoExpanded = true
                     FragmentSertInfoMinGr.visibility = View.GONE
                     FragmentSertInfoMaxGr.visibility = View.VISIBLE
                 }
