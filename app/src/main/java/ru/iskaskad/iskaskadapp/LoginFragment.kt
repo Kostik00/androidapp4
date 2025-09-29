@@ -1,31 +1,25 @@
 package ru.iskaskad.iskaskadapp
 
 
-import android.app.PendingIntent
-import android.content.Intent
 import android.os.Bundle
 import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RemoteViews
 import android.widget.Toast
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
-import kotlinx.coroutines.*
-import ru.iskaskad.iskaskadapp.ISKaskadAPP
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 import ru.iskaskad.iskaskadapp.ISKaskadAPP.Companion.LOGIN_ID
-import ru.iskaskad.iskaskadapp.databinding.FragmentLoginBinding
 import ru.iskaskad.iskaskadapp.ISKaskadAPP.Companion.RunMode
+import ru.iskaskad.iskaskadapp.databinding.FragmentLoginBinding
 import java.net.URL
-import ru.iskaskad.iskaskadapp.ISKaskadAPP.Companion as GlobalApp
-
 
 
 class LoginFragment : Fragment() {

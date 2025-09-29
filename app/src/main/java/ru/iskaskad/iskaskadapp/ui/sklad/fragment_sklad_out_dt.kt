@@ -1,13 +1,12 @@
 package ru.iskaskad.iskaskadapp.ui.sklad
 
-import android.annotation.SuppressLint
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
-import android.os.Build
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -22,7 +21,9 @@ import ru.iskaskad.iskaskadapp.adapters.SkladOutMTabAdapter
 import ru.iskaskad.iskaskadapp.databinding.FragmentSkladOutDtBinding
 import ru.iskaskad.iskaskadapp.dto.SkladIdMatInfo
 import ru.iskaskad.iskaskadapp.ui.BaseFragment
-
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
+import androidx.lifecycle.Lifecycle
 
 class fragment_sklad_out_dt : BaseFragment() {
     override var logTAG = "SkladOMOutDt"
@@ -67,22 +68,65 @@ class fragment_sklad_out_dt : BaseFragment() {
         _binding = FragmentSkladOutDtBinding.inflate(inflater, container, false)
         val view = binding.root
 
-
         ParamBundle = requireArguments()
-
-        var Key_GrZap = ParamBundle.getInt("Key_GrZap")
-
+        val Key_GrZap = ParamBundle.getInt("Key_GrZap")
         initTabs(Key_GrZap)
 
         binding.SelSubjBtn.setOnClickListener {
             val Params= Bundle()
             Params.putString("Filter","&Key_Class=1&Cod_Sub=1")
             findNavController().navigate(R.id.action_fragment_sklad_out_dt_to_subjFindFragment, Params)
-
         }
 
+        // Новый способ работы с меню
+        val menuHost: MenuHost = requireActivity()
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.skladoutdtmenu, menu)
+                val m: MenuItem = menu.findItem(R.id.MakeNaclItem)
+                m.setOnMenuItemClickListener {
+                    if (AppVM.GetSelectedSubjInfo().value != null) {
+                        val JsonRoot = JSONObject()
+                        JsonRoot.put("Key_Sub_Ver", AppVM.GetSelectedSubjInfo().value?.GetIntParam("Key_Sub_Ver"))
+                        AppVM.getGrZapInfo().value?.let {
+                            JsonRoot.put("Key_GrZap", it.GetIntParam("Key_GrZap"))
+                            val arr = JSONArray()
+                            it.IdMatInfo.forEach { matInfo ->
+                                matInfo.IdMatItems.forEach { item ->
+                                    if (item.GetIntParam("Cnt") > 0) {
+                                        val elementi = JSONObject()
+                                        elementi.put("Key_Nacl_Str_Sost", item.GetIntParam("Key_Nacl_Str_Sost"))
+                                        elementi.put("Cnt", item.GetIntParam("Cnt"))
+                                        arr.put(elementi)
+                                    }
+                                }
+                            }
+                            if (arr.length() > 0) {
+                                JsonRoot.put("sostav", arr)
+                                val RunStr = "&JSONStr=${ISKaskadAPP.encodeStr(JsonRoot.toString())}"
+                                AppVM.SkladRunGrZap(RunStr)
+                                Toast.makeText(
+                                    context,
+                                    "Запущен процесс создания накладных",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                findNavController().navigateUp()
+                            }
+                        }
+                    } else {
+                        val Params = Bundle()
+                        Params.putString("Filter", "&Key_Class=1")
+                        findNavController().navigate(R.id.action_fragment_sklad_out_dt_to_subjFindFragment, Params)
+                    }
+                    true
+                }
+            }
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                // Если требуется обработка других пунктов меню, реализуйте здесь
+                return false
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
-        setHasOptionsMenu(true)
         return view
     }
 
@@ -161,68 +205,6 @@ class fragment_sklad_out_dt : BaseFragment() {
         }.attach()
 
         runSearchByKey(Key_GrZap)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-
-        inflater.inflate(R.menu.skladoutdtmenu, menu)
-
-        var m: MenuItem =    menu.findItem(R.id.MakeNaclItem)
-
-        m.setOnMenuItemClickListener {
-            if (AppVM.GetSelectedSubjInfo().value != null) {
-                     val JsonRoot = JSONObject()
-                     JsonRoot.put("Key_Sub_Ver",AppVM.GetSelectedSubjInfo().value?.GetIntParam("Key_Sub_Ver"))
-
-                     AppVM.getGrZapInfo().value?.let {
-                         JsonRoot.put("Key_GrZap", it.GetIntParam("Key_GrZap"))
-
-                         val arr = JSONArray()
-
-                         it.IdMatInfo.forEach {
-                             it.IdMatItems.forEach {
-                                 if (it.GetIntParam("Cnt")>0 ) {
-                                     val elementi = JSONObject()
-                                     elementi.put("Key_Nacl_Str_Sost",it.GetIntParam("Key_Nacl_Str_Sost"))
-                                     elementi.put("Cnt",it.GetIntParam("Cnt"))
-                                     arr.put(elementi)
-                                 }
-                             }
-
-                         }
-
-                         if (arr.length()>0)
-                         {
-
-                             JsonRoot.put("sostav", arr)
-
-
-                             var RunStr = "&JSONStr=${ISKaskadAPP.encodeStr(JsonRoot.toString())}"
-                             AppVM.SkladRunGrZap(RunStr)
-
-                             Toast.makeText(
-                                 this.context,
-                                 "Запущен процесс создания накладных",
-                                 Toast.LENGTH_SHORT
-                             ).show()
-
-                             findNavController().navigateUp()
-                         }
-
-                }
-            }
-            else
-            {
-                //Toast.makeText( context, "Запускаем выбор получателя", Toast.LENGTH_SHORT).show()
-
-                val Params= Bundle()
-                Params.putString("Filter","&Key_Class=1")
-                findNavController().navigate(R.id.action_fragment_sklad_out_dt_to_subjFindFragment, Params)
-            }
-           true
-        }
-        false
     }
 
 

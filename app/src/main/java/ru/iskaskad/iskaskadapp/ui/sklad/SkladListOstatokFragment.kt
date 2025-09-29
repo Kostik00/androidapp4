@@ -1,16 +1,17 @@
 package ru.iskaskad.iskaskadapp.ui.sklad
 
-import android.annotation.SuppressLint
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
-import android.os.Build
 import android.os.Bundle
-import android.view.*
-import android.widget.Toast
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.widget.SwitchCompat
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,11 +23,6 @@ import ru.iskaskad.iskaskadapp.R
 import ru.iskaskad.iskaskadapp.adapters.SkladFragmentAdapter
 import ru.iskaskad.iskaskadapp.dto.SkladFragmentInfo
 import ru.iskaskad.iskaskadapp.ui.BaseFragment
-import androidx.core.view.MenuHost
-import androidx.core.view.MenuProvider
-import androidx.lifecycle.Lifecycle
-import kotlin.collections.containsKey
-import kotlin.collections.get
 
 class SkladListOstatokFragment : BaseFragment() {
 

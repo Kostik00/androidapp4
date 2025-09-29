@@ -6,6 +6,9 @@ import android.view.*
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
+import androidx.lifecycle.Lifecycle
 import ru.iskaskad.iskaskadapp.ISKaskadAPP
 import ru.iskaskad.iskaskadapp.IsKaskadAPPVM
 import ru.iskaskad.iskaskadapp.R
@@ -51,21 +54,32 @@ class fragment_sklad_out : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentSkladOutBinding.inflate(inflater, container, false)
-      //  val view = binding.root
 
         binding.SearchGrZapBtn.setOnClickListener {
             try {
                 runSearchByKey(binding.SearchGrZap.text.toString().toInt())
             }
             catch (e: NumberFormatException){
-
+                ISKaskadAPP.sendLogMessage(logTAG , "Ошибка при поиске по ключу (${e.toString()})"  )
             }
         }
 
         initList()
 
+        // Новый способ работы с меню
+        val menuHost: MenuHost = requireActivity()
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.skladfragmentmenu, menu)
+                // Если требуется инициализация элементов меню, добавьте здесь
+            }
 
-        setHasOptionsMenu(true)
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                // Если требуется обработка выбора пунктов меню, реализуйте здесь
+                return false
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+
         return binding.root
     }
 

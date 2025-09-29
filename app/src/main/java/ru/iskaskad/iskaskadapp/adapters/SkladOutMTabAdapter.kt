@@ -17,18 +17,13 @@
 package ru.iskaskad.iskaskadapp.adapters
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.iskaskad.iskaskadapp.R
-import ru.iskaskad.iskaskadapp.databinding.FragmentSkladOutBinding
 import ru.iskaskad.iskaskadapp.databinding.SkladIdmatTabItemBinding
-import ru.iskaskad.iskaskadapp.dto.MasterDTO
-import ru.iskaskad.iskaskadapp.dto.PaspInfo
 import ru.iskaskad.iskaskadapp.dto.SkladIDMatDTInfo
 import ru.iskaskad.iskaskadapp.dto.SkladIdMatInfo
-import java.util.ArrayList
 
 class SkladOutMTabAdapter(private val callback: () -> Unit) : RecyclerView.Adapter<SkladOutMTabAdapter.MainHolder>() {
 
