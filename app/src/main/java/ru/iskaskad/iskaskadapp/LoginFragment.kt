@@ -122,7 +122,7 @@ class LoginFragment : Fragment() {
                                     findNavController().navigate(
                                         R.id.nav_home,
                                         null,
-                                        androidx.navigation.NavOptions.Builder()
+                                        NavOptions.Builder()
                                             .setPopUpTo(R.id.nav_login, true)
                                             .setLaunchSingleTop(true)
                                             .build()
@@ -133,7 +133,7 @@ class LoginFragment : Fragment() {
                                     findNavController().navigate(
                                         R.id.nav_mtask,
                                         null,
-                                        androidx.navigation.NavOptions.Builder()
+                                        NavOptions.Builder()
                                             .setPopUpTo(R.id.nav_login, true)
                                             .setLaunchSingleTop(true)
                                             .build()

@@ -203,7 +203,7 @@ class ISKaskadAPP : Application() {
                 NotificationManager.IMPORTANCE_HIGH
             )
             channel1.description = "Канал оповещение ИС КАСКАД"
-            val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            val manager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
             manager.createNotificationChannel(channel1)
         }
     }
@@ -212,7 +212,7 @@ class ISKaskadAPP : Application() {
         receiver: BroadcastReceiver?,
         filter: IntentFilter?
     ): Intent? {
-        if (Build.VERSION.SDK_INT >= 34 && getApplicationInfo().targetSdkVersion >= 34) {
+        if (Build.VERSION.SDK_INT >= 34 && applicationInfo.targetSdkVersion >= 34) {
             return super.registerReceiver(receiver, filter, RECEIVER_NOT_EXPORTED)
         } else {
             return super.registerReceiver(receiver, filter)

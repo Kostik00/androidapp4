@@ -230,7 +230,7 @@ class SkladListOstatokFragment : BaseFragment() {
 
         val MoveSearchItem = menu.findItem(R.id.MoveOstItemSwitch)
         // -- todo Исправить
-        MoveOstItemSwitch =  MoveSearchItem.actionView?.findViewById(R.id.switchid) as SwitchCompat
+        MoveOstItemSwitch = MoveSearchItem.actionView?.findViewById<SwitchCompat>(R.id.switchid)!!
     }
 
     private fun getSearchStr():String

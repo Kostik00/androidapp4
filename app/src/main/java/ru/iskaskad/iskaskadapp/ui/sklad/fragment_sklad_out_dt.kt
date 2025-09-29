@@ -31,7 +31,7 @@ class fragment_sklad_out_dt : BaseFragment() {
     private val binding get() = _binding!!
 
     private val AppVM : IsKaskadAPPVM by activityViewModels()
-    private lateinit var Adapter: SkladOutMTabAdapter;
+    private lateinit var Adapter: SkladOutMTabAdapter
     private val mainActivity get() =  activity  as MainActivity
 
 
@@ -108,10 +108,10 @@ class fragment_sklad_out_dt : BaseFragment() {
         AppVM.GetSelectedSubjInfo().observe(viewLifecycleOwner
         ) {
             it?.let{
-                binding.SubSkladName.setText(it.getF_Name_Sub())
+                binding.SubSkladName.text = it.getF_Name_Sub()
 
             } ?: run    {
-                binding.SubSkladName.setText("Не выбран")
+                binding.SubSkladName.text = "Не выбран"
             }
 
         }

@@ -47,7 +47,7 @@ class SkladOutMTabAdapter(private val callback: () -> Unit) : RecyclerView.Adapt
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
-       = SkladOutMTabAdapter.MainHolder(  SkladIdmatTabItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)  ) ;
+       = MainHolder(  SkladIdmatTabItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)  )
 
     override fun onBindViewHolder(holder: MainHolder, position: Int) {
         if (GetData().count() >= position) {

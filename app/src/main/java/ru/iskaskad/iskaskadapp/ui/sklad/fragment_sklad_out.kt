@@ -117,7 +117,7 @@ class fragment_sklad_out : BaseFragment() {
         {
             override fun onItemClicked(item: SkladGrZapInfo)
             {
-                val Key_GrZap = item.getStrParam("Key_GrZap").toInt() ;
+                val Key_GrZap = item.getStrParam("Key_GrZap").toInt()
 
                 val bundle = Bundle()
                 bundle.putInt("Key_GrZap", Key_GrZap)
