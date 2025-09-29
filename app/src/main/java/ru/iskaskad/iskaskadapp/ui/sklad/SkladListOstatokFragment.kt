@@ -10,8 +10,6 @@ import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.widget.SwitchCompat
-import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,7 +27,7 @@ import java.util.*
 //@Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class SkladListOstatokFragment : BaseFragment() {
 
-    val LogTAG="SkladListOstatokFragment"
+    override var logTAG="SkladListOstatokFragment"
 
     private val AppVM: IsKaskadAPPVM by activityViewModels()
 
@@ -50,7 +48,7 @@ class SkladListOstatokFragment : BaseFragment() {
 
             val barcode = ISKaskadAPP.readBarCode(intent)
 
-            ISKaskadAPP.sendLogMessage(LogTAG, "PARSE BARCODE $barcode")
+            ISKaskadAPP.sendLogMessage(logTAG, "PARSE BARCODE $barcode")
 
             when {
                 (barcode.startsWith(ISKaskadAPP.BARCODE_DATA_KEY_PASP_PLACE)) -> {
@@ -293,7 +291,7 @@ class SkladListOstatokFragment : BaseFragment() {
     @SuppressLint("UnspecifiedRegisterReceiverFlag")
     override fun onResume() {
         super.onResume()
-        ISKaskadAPP.sendLogMessage(LogTAG, "OnResume")
+        ISKaskadAPP.sendLogMessage(logTAG, "OnResume")
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             requireContext().registerReceiver(
@@ -311,7 +309,7 @@ class SkladListOstatokFragment : BaseFragment() {
 
 
     override fun onPause() {
-        ISKaskadAPP.sendLogMessage(LogTAG, "OnPause")
+        ISKaskadAPP.sendLogMessage(logTAG, "OnPause")
 
         try {
             requireContext().unregisterReceiver(broadCastReceiver)

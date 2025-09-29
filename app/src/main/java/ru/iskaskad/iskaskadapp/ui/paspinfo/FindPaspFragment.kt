@@ -1,39 +1,35 @@
 package ru.iskaskad.iskaskadapp.ui.paspinfo
 
 
-import android.content.BroadcastReceiver
+//import kotlinx.android.synthetic.main.fragment_find_pasp.*
 import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-//import kotlinx.android.synthetic.main.fragment_find_pasp.*
 import ru.iskaskad.iskaskadapp.ISKaskadAPP
 import ru.iskaskad.iskaskadapp.ISKaskadAPP.Companion.LOGIN_ID
 import ru.iskaskad.iskaskadapp.IsKaskadAPPVM
 import ru.iskaskad.iskaskadapp.R
 import ru.iskaskad.iskaskadapp.adapters.FindPaspAdapter
-import ru.iskaskad.iskaskadapp.dto.PaspInfo
-import java.util.*
-import ru.iskaskad.iskaskadapp.ISKaskadAPP.Companion as GlobalApp
 import ru.iskaskad.iskaskadapp.databinding.FragmentFindPaspBinding
-import ru.iskaskad.iskaskadapp.databinding.FragmentMtaskBinding
+import ru.iskaskad.iskaskadapp.dto.PaspInfo
+import ru.iskaskad.iskaskadapp.ui.BaseFragment
+import java.util.Calendar
+import java.util.Date
+import ru.iskaskad.iskaskadapp.ISKaskadAPP.Companion as GlobalApp
 
-class FindPaspFragment : Fragment() {
+class FindPaspFragment : BaseFragment() {
+    override var logTAG="FindPaspFragment"
 
     private var _binding: FragmentFindPaspBinding? = null
     private val binding get() = _binding!!
 
 
-    val LogTAG="FindPaspFragment"
 
     private val AppVM : IsKaskadAPPVM by activityViewModels()
 
@@ -43,40 +39,34 @@ class FindPaspFragment : Fragment() {
     private var TS :Date  =  Calendar.getInstance().time
 
 
+    override fun onBarcode(barCode: String) {
+        when {
+            barCode.startsWith(GlobalApp.BARCODE_DATA_KEY_PASP) -> {
+                val Key_Pasp: String = barCode.replace(GlobalApp.BARCODE_DATA_KEY_PASP, "")
 
-    private val broadCastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(contxt: Context?, intent: Intent?) {
-
-            val barcode = ISKaskadAPP.readBarCode(intent)
-
-            GlobalApp.sendLogMessage(LogTAG, "PARSE BARCODE $barcode")
-
-            when {
-                barcode.startsWith(GlobalApp.BARCODE_DATA_KEY_PASP) -> {
-                    val Key_Pasp:String = barcode.replace(GlobalApp.BARCODE_DATA_KEY_PASP, "")
-
-                    runSearchByKey(  Key_Pasp )
-                }
-                barcode.startsWith(GlobalApp.BARCODE_DATA_KEY_PASP_PLACE) -> {
-                    val Key_PaspPlace:String = barcode.replace(GlobalApp.BARCODE_DATA_KEY_PASP_PLACE, "")
-                    runSearchByPlace(  Key_PaspPlace )
-
-                }
-                else -> {
-                    Toast.makeText(
-                        context,
-                        "Данный тип штрихкода не поддерживается:'$barcode'",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
+                runSearchByKey(Key_Pasp)
             }
 
+            barCode.startsWith(GlobalApp.BARCODE_DATA_KEY_PASP_PLACE) -> {
+                val Key_PaspPlace: String =
+                    barCode.replace(GlobalApp.BARCODE_DATA_KEY_PASP_PLACE, "")
+                runSearchByPlace(Key_PaspPlace)
+
+            }
+
+            else -> {
+                super.onBarcode(barCode)
+            }
         }
+
     }
 
 
+
+
+
     override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View {
-        GlobalApp.sendLogMessage(LogTAG, "onCreateView in")
+        GlobalApp.sendLogMessage(logTAG, "onCreateView in")
 
 
         _binding = FragmentFindPaspBinding.inflate(inflater, container, false)
@@ -97,7 +87,7 @@ class FindPaspFragment : Fragment() {
 
 
 
-        GlobalApp.sendLogMessage(LogTAG, "onCreateView out")
+        GlobalApp.sendLogMessage(logTAG, "onCreateView out")
 
         return view
 
@@ -105,9 +95,8 @@ class FindPaspFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        GlobalApp.sendLogMessage(LogTAG, "OnResume")
+        GlobalApp.sendLogMessage(logTAG, "OnResume")
 
-        context?.registerReceiver(broadCastReceiver, IntentFilter(GlobalApp.SCAN_ACTION))
 
         TS   = Calendar.getInstance().time
 
@@ -121,13 +110,6 @@ class FindPaspFragment : Fragment() {
 
     }
 
-    override fun onPause() {
-        GlobalApp.sendLogMessage(LogTAG, "OnPause")
-
-        context?.unregisterReceiver(broadCastReceiver)
-
-        super.onPause()
-    }
 
 
 

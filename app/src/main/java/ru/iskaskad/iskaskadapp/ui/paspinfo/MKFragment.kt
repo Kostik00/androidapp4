@@ -10,25 +10,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.tabs.TabLayoutMediator
 //import kotlinx.android.synthetic.main.fragment_pasp_info.*
 import ru.iskaskad.iskaskadapp.ISKaskadAPP
 import ru.iskaskad.iskaskadapp.MainActivity
-import ru.iskaskad.iskaskadapp.R
 import ru.iskaskad.iskaskadapp.IsKaskadAPPVM
 //import ru.iskaskad.iskaskadapp.databinding.FragmentFindPaspBinding
 import ru.iskaskad.iskaskadapp.databinding.FragmentPaspInfoBinding
+import ru.iskaskad.iskaskadapp.ui.BaseFragment
 
 
-class MKFragment : Fragment() {
+class MKFragment : BaseFragment() {
+    override var logTAG = "MKFragment"
 
     private var _binding: FragmentPaspInfoBinding? = null
     private val binding get() = _binding!!
 
 
-    private var LogTAG = "MKFragment"
 
     private val mainActivity get() =  activity  as MainActivity
 
@@ -71,49 +70,23 @@ class MKFragment : Fragment() {
     }
 
 
-    private val broadCastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(contxt: Context?, intent: Intent?) {
-
-            val barcode = ISKaskadAPP.readBarCode(intent)
-
-            ISKaskadAPP.sendLogMessage(LogTAG, "PARSE BARCODE $barcode")
-
-            when {
-                barcode.startsWith(ISKaskadAPP.BARCODE_DATA_KEY_PASP) -> {
-                    val Key_Pasp:String = barcode.replace(ISKaskadAPP.BARCODE_DATA_KEY_PASP, "")
+    override fun onBarcode(barCode: String) {
+        when {
+            barCode.startsWith(ISKaskadAPP.BARCODE_DATA_KEY_PASP) -> {
+                val Key_Pasp:String = barCode.replace(ISKaskadAPP.BARCODE_DATA_KEY_PASP, "")
 
 
-                    AppVM.loadPaspInfo(Key_Pasp)
-                }
-
-                else -> {
-                    Toast.makeText(
-                        context,
-                        "Данный тип штрихкода не поддерживается:'$barcode'",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
+                AppVM.loadPaspInfo(Key_Pasp)
             }
 
+            else -> {
+                super.onBarcode(barCode)
+            }
         }
+
+
     }
 
-
-
-
-    override fun onResume() {
-        super.onResume()
-        ISKaskadAPP.sendLogMessage(LogTAG, "OnResume")
-
-        context?.registerReceiver(broadCastReceiver, IntentFilter(ISKaskadAPP.SCAN_ACTION))
-    }
-
-    override fun onPause() {
-        ISKaskadAPP.sendLogMessage(LogTAG, "OnPause")
-
-        context?.unregisterReceiver(broadCastReceiver)
-        super.onPause()
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()

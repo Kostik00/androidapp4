@@ -15,6 +15,7 @@ import ru.iskaskad.iskaskadapp.dto.PaspHistoryRecInfo
 import ru.iskaskad.iskaskadapp.IsKaskadAPPVM
 import ru.iskaskad.iskaskadapp.databinding.FragmentPaspInfoBinding
 import ru.iskaskad.iskaskadapp.databinding.FragmentPaspInfoHistoryBinding
+import ru.iskaskad.iskaskadapp.ui.BaseFragment
 
 
 private const val ARG_PARAM1 = "Key_Pasport"
