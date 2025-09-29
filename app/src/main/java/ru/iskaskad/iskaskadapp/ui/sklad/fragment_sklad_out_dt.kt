@@ -164,7 +164,12 @@ class fragment_sklad_out_dt : BaseFragment() {
         Adapter = SkladOutMTabAdapter (
             {
                 fun onItemClicked(item: SkladIdMatInfo)        {
-
+                                val toast = Toast.makeText(
+                                    getActivity(),
+                                    "onItemClicked ${item.getStrParam("Key_IdMat")}!",
+                                    Toast.LENGTH_SHORT
+                                )
+                                toast.show()
                 }
             }
         )

@@ -42,20 +42,27 @@ class SkladOutMTabAdapter(private val callback: () -> Unit) : RecyclerView.Adapt
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
-       = MainHolder(  SkladIdmatTabItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)  )
+       = MainHolder(
+            SkladIdmatTabItemBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+            callback
+        )
 
     override fun onBindViewHolder(holder: MainHolder, position: Int) {
         if (GetData().count() >= position) {
             holder.bind(FDtInfo[position])
-
         }
 
     }
 
 
+
+
     override fun getItemCount() = FDtInfo.count()
 
-    class MainHolder(binding: SkladIdmatTabItemBinding) : MasterHolder(binding.root ,
+    class MainHolder(
+        binding: SkladIdmatTabItemBinding,
+        private val callback: () -> Unit
+    ) : MasterHolder(binding.root ,
         BindInfoArray(
             arrayListOf(
                 BindInfoItem(R.id.IdMat_Key_Id_Mat,"Key_ID_Mat"),
@@ -68,12 +75,13 @@ class SkladOutMTabAdapter(private val callback: () -> Unit) : RecyclerView.Adapt
 
 
         var adapter = SkladIdMatDTAdapter(  object : SkladIdMatDTAdapter.Callback
-        {
-            override fun onItemClicked(item: SkladIDMatDTInfo)
             {
-                //
+                override fun onItemClicked(item: SkladIDMatDTInfo)
+                {
+                    callback()
+                }
             }
-        })
+        )
 
        init  {
             binding.idmatdtrv.layoutManager = LinearLayoutManager(binding.root.context)
@@ -94,4 +102,3 @@ class SkladOutMTabAdapter(private val callback: () -> Unit) : RecyclerView.Adapt
 
 
 }
-
