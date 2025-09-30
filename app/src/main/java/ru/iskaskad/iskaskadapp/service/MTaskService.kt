@@ -42,13 +42,13 @@ class MTaskService : Service() {
         TODO("Return the communication channel to the service.")
     }
 
-    private var MTaskJob:Job = Job()
+    private var mTaskJob:Job = Job()
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
 
-        MTaskJob.cancel()
+        mTaskJob.cancel()
 
-        MTaskJob = GlobalScope.launch  @androidx.annotation.RequiresPermission(android.Manifest.permission.POST_NOTIFICATIONS) {
+        mTaskJob = GlobalScope.launch  @androidx.annotation.RequiresPermission(android.Manifest.permission.POST_NOTIFICATIONS) {
             ISKaskadAPP.sendLogMessage(LogTAG, "Job is started ")
             while (isActive) {
 
@@ -56,10 +56,10 @@ class MTaskService : Service() {
                     ISKaskadAPP.sendLogMessage(LogTAG, "Waiting for delay $UPDATE_TIMEOUT")
                     delay( UPDATE_TIMEOUT )
                     ISKaskadAPP.sendLogMessage(LogTAG, "Delay complete ")
-                    val NotifyStr = loadMTaskStatistic()
-                    if (NotifyStr != "") {
+                    val notifyStr = loadMTaskStatistic()
+                    if (notifyStr != "") {
                         ISKaskadAPP.sendLogMessage(LogTAG, "Notification string not empty, sending notification")
-                        sendOnChannel1(NotifyStr)
+                        sendOnChannel1(notifyStr)
                     } else {
                         ISKaskadAPP.sendLogMessage(LogTAG, "Notification string empty, no notification sent")
                         // Не вызываем startForeground с null-уведомлением
@@ -113,7 +113,7 @@ class MTaskService : Service() {
 
     override fun onDestroy() {
         runBlocking {
-            MTaskJob.cancelAndJoin()
+            mTaskJob.cancelAndJoin()
         }
         ISKaskadAPP.sendLogMessage(LogTAG, "Service destroyed ")
         super.onDestroy()
@@ -161,7 +161,7 @@ class MTaskService : Service() {
     }
 
     override fun stopService(name: Intent?): Boolean {
-        MTaskJob.cancel()
+        mTaskJob.cancel()
 
         return super.stopService(name)
     }
