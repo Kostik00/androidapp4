@@ -6,8 +6,10 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.media.RingtoneManager
 import android.net.Uri
+import android.os.Build
 import android.os.IBinder
 import androidx.annotation.RequiresPermission
 import androidx.core.app.NotificationCompat
@@ -48,7 +50,7 @@ class MTaskService : Service() {
 
         mTaskJob.cancel()
 
-        mTaskJob = GlobalScope.launch  @androidx.annotation.RequiresPermission(android.Manifest.permission.POST_NOTIFICATIONS) {
+        mTaskJob = GlobalScope.launch {
             ISKaskadAPP.sendLogMessage(LogTAG, "Job is started ")
             while (isActive) {
 
@@ -58,12 +60,21 @@ class MTaskService : Service() {
                     ISKaskadAPP.sendLogMessage(LogTAG, "Delay complete ")
                     val notifyStr = loadMTaskStatistic()
                     if (notifyStr != "") {
-                        ISKaskadAPP.sendLogMessage(LogTAG, "Notification string not empty, sending notification")
-                        sendOnChannel1(notifyStr)
+                        ISKaskadAPP.sendLogMessage(LogTAG, "Notification string not empty, checking notification permission")
+                        if  (
+                                Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
+                                checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED
+                            )
+                        {
+                            ISKaskadAPP.sendLogMessage(LogTAG, "Permission granted, sending notification")
+                            sendOnChannel1(notifyStr)
+                        }
+                        else
+                        {
+                            ISKaskadAPP.sendLogMessage(LogTAG, "Permission denied, notification not sent")
+                        }
                     } else {
                         ISKaskadAPP.sendLogMessage(LogTAG, "Notification string empty, no notification sent")
-                        // Не вызываем startForeground с null-уведомлением
-                        // Можно добавить nm.cancel(1) если нужно убрать старое уведомление
                         nm.cancel(1)
                     }
                 } catch (e:Exception) {
