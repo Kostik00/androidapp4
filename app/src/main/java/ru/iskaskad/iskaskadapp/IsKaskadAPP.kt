@@ -207,15 +207,15 @@ class ISKaskadAPP : Application() {
         }
     }
 
-    override fun registerReceiver(
-        receiver: BroadcastReceiver?,
-        filter: IntentFilter?
-    ): Intent? {
-        if (Build.VERSION.SDK_INT >= 34 && applicationInfo.targetSdkVersion >= 34) {
-            return super.registerReceiver(receiver, filter, RECEIVER_NOT_EXPORTED)
-        } else {
-            return super.registerReceiver(receiver, filter)
-        }
-    }
+//    override fun registerReceiver(
+//        receiver: BroadcastReceiver?,
+//        filter: IntentFilter?
+//    ): Intent? {
+//        if (Build.VERSION.SDK_INT >= 34 && applicationInfo.targetSdkVersion >= 34) {
+//            return super.registerReceiver(receiver, filter, RECEIVER_NOT_EXPORTED)
+//        } else {
+//            return super.registerReceiver(receiver, filter)
+//        }
+//    }
 
 }
