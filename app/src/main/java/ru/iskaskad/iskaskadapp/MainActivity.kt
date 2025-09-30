@@ -3,6 +3,7 @@ package ru.iskaskad.iskaskadapp
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.os.Looper
 import android.view.Menu
 import android.view.MenuItem
 import android.view.MotionEvent
@@ -154,21 +155,21 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        val backCallback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                val navController = findNavController(R.id.nav_host_fragment_content_main)
-                if (!navController.popBackStack()) {
-                    if (backPressedOnce) {
-                        finish()
-                    } else {
-                        backPressedOnce = true
-                        Toast.makeText(this@MainActivity, "Если вы действительно хотите выйти из приложения, нажмите 'Назад' ещё раз", Toast.LENGTH_SHORT).show()
-                        android.os.Handler().postDelayed({ backPressedOnce = false }, 2000)
-                    }
-                }
-            }
-        }
-        onBackPressedDispatcher.addCallback(this, backCallback)
+//        val backCallback = object : OnBackPressedCallback(true) {
+//            override fun handleOnBackPressed() {
+//                val navController = findNavController(R.id.nav_host_fragment_content_main)
+//                if (!navController.popBackStack()) {
+//                    if (backPressedOnce) {
+//                        finish()
+//                    } else {
+//                        backPressedOnce = true
+//                        Toast.makeText(this@MainActivity, "Если вы действительно хотите выйти из приложения, нажмите 'Назад' ещё раз", Toast.LENGTH_SHORT).show()
+//                        android.os.Handler(Looper.getMainLooper()).postDelayed({ backPressedOnce = false }, 2000)
+//                    }
+//                }
+//            }
+//        }
+//        onBackPressedDispatcher.addCallback(this, backCallback)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

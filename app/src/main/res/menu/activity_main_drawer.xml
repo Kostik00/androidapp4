@@ -6,6 +6,12 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_findpasp"
+            android:icon="@drawable/ic_menu_findpasp"
+            android:title="@string/menu_findpasp"
+            />
+
+        <item
             android:id="@+id/nav_mtask"
             android:icon="@drawable/ic_menu_mtask"
             android:title="@string/menu_mtask"
