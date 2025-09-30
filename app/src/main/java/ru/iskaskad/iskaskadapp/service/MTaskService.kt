@@ -48,7 +48,7 @@ class MTaskService : Service() {
 
         MTaskJob.cancel()
 
-        MTaskJob = GlobalScope.launch  {
+        MTaskJob = GlobalScope.launch  @androidx.annotation.RequiresPermission(android.Manifest.permission.POST_NOTIFICATIONS) {
             ISKaskadAPP.sendLogMessage(LogTAG, "Job is started ")
             while (isActive) {
 

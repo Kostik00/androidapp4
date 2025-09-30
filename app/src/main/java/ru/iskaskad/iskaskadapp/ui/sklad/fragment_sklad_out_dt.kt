@@ -163,7 +163,7 @@ class fragment_sklad_out_dt : BaseFragment() {
             {
                 fun onItemClicked(item: SkladIdMatInfo)        {
                                 val toast = Toast.makeText(
-                                    getActivity(),
+                                    activity,
                                     "onItemClicked ${item.getStrParam("Key_IdMat")}!",
                                     Toast.LENGTH_SHORT
                                 )
