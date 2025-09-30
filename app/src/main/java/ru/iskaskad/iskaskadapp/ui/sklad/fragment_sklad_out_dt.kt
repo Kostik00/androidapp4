@@ -33,7 +33,6 @@ class fragment_sklad_out_dt : BaseFragment() {
 
     private val AppVM : IsKaskadAPPVM by activityViewModels()
     private lateinit var Adapter: SkladOutMTabAdapter
-    private val mainActivity get() =  activity  as MainActivity
 
 
     private lateinit var ParamBundle :Bundle
@@ -137,7 +136,7 @@ class fragment_sklad_out_dt : BaseFragment() {
 
 
     private fun runSearchByKey( Key_GrZap :Int    ) {
-        var SearchStr = "&Key_GrZap=$Key_GrZap"
+        val SearchStr = "&Key_GrZap=$Key_GrZap"
 
         AppVM.loadGrZapInfo(SearchStr)
     }
