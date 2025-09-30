@@ -8,6 +8,7 @@ import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -27,6 +28,7 @@ class MainActivity : AppCompatActivity() {
         const val LogTAG = "MainActivity"
     }
 
+    private var backPressedOnce = false
     private lateinit var appBarConfiguration: AppBarConfiguration
     lateinit var binding: ActivityMainBinding
 
@@ -71,7 +73,12 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_login, R.id.nav_home,  R.id.nav_mtask
+                R.id.nav_login,
+                R.id.nav_home,
+                R.id.nav_mtask,
+                R.id.nav_sklad,
+                R.id.nav_sklad_om,
+                R.id.nav_findpasp
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -146,6 +153,22 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
+        val backCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val navController = findNavController(R.id.nav_host_fragment_content_main)
+                if (!navController.popBackStack()) {
+                    if (backPressedOnce) {
+                        finish()
+                    } else {
+                        backPressedOnce = true
+                        Toast.makeText(this@MainActivity, "Если вы действительно хотите выйти из приложения, нажмите 'Назад' ещё раз", Toast.LENGTH_SHORT).show()
+                        android.os.Handler().postDelayed({ backPressedOnce = false }, 2000)
+                    }
+                }
+            }
+        }
+        onBackPressedDispatcher.addCallback(this, backCallback)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

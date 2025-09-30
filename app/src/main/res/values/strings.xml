@@ -92,7 +92,7 @@
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
 
-    <string name="menu_chusr">Вход в систему</string>
+    <string name="menu_login">Вход в систему</string>
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
 

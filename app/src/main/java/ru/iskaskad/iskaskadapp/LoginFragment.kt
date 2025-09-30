@@ -47,7 +47,7 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        savedStateHandle = findNavController().previousBackStackEntry!!.savedStateHandle
+//         savedStateHandle = findNavController().previousBackStackEntry!!.savedStateHandle
 
         binding.authButton.setOnClickListener { tryToLogin() }
 
@@ -110,8 +110,30 @@ class LoginFragment : Fragment() {
                             Toast.makeText(requireContext(), "Успешная авторизация", Toast.LENGTH_SHORT).show()
 
                             when (RunMode) {
-                                R.id.radio_Sklad,
-                                R.id.radio_FindPasp,
+                                R.id.radio_Sklad -> {
+                                    // savedStateHandle.set(ISKaskadAPP.REQUEST_PARAM_RUNMODE, R.id.radio_Sklad)
+                                    // findNavController().popBackStack()
+                                    findNavController().navigate(
+                                        R.id.nav_sklad,
+                                        null,
+                                        NavOptions.Builder()
+                                            .setPopUpTo(R.id.nav_login, true)
+                                            .setLaunchSingleTop(true)
+                                            .build()
+                                    )
+                                }
+                                R.id.radio_FindPasp -> {
+                                    // savedStateHandle.set(ISKaskadAPP.REQUEST_PARAM_RUNMODE, R.id.radio_FindPasp)
+                                    // findNavController().popBackStack()
+                                    findNavController().navigate(
+                                        R.id.nav_findpasp,
+                                        null,
+                                        NavOptions.Builder()
+                                            .setPopUpTo(R.id.nav_login, true)
+                                            .setLaunchSingleTop(true)
+                                            .build()
+                                    )
+                                }
                                 R.id.radio_Sklad_outm -> {
                                     findNavController().navigate(
                                         R.id.nav_home,
