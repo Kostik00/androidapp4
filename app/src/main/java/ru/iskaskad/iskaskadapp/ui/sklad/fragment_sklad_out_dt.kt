@@ -8,22 +8,21 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
 import org.json.JSONArray
 import org.json.JSONObject
 import ru.iskaskad.iskaskadapp.ISKaskadAPP
 import ru.iskaskad.iskaskadapp.IsKaskadAPPVM
-import ru.iskaskad.iskaskadapp.MainActivity
 import ru.iskaskad.iskaskadapp.R
 import ru.iskaskad.iskaskadapp.adapters.SkladOutMTabAdapter
 import ru.iskaskad.iskaskadapp.databinding.FragmentSkladOutDtBinding
 import ru.iskaskad.iskaskadapp.dto.SkladIdMatInfo
 import ru.iskaskad.iskaskadapp.ui.BaseFragment
-import androidx.core.view.MenuHost
-import androidx.core.view.MenuProvider
-import androidx.lifecycle.Lifecycle
 
 class fragment_sklad_out_dt : BaseFragment() {
     override var logTAG = "SkladOMOutDt"

@@ -89,11 +89,11 @@ class fragment_sklad_out : BaseFragment() {
     }
 
     private fun runSearch(   ) {
-        var SearchStr = ""
+        val SearchStr = ""
         AppVM.loadGrZapList(SearchStr)
     }
     private fun runSearchByKey( Key_GrZap :Int    ) {
-        var SearchStr = "&Key_GrZap=$Key_GrZap"
+        val SearchStr = "&Key_GrZap=$Key_GrZap"
         AppVM.loadGrZapList(SearchStr)
     }
 
