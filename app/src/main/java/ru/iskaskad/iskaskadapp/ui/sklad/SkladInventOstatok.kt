@@ -2,11 +2,6 @@ package ru.iskaskad.iskaskadapp.ui.sklad
 
 
 //import kotlinx.android.synthetic.main.sklad_invent_ostatok_fragment.*
-import android.annotation.SuppressLint
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -53,45 +48,35 @@ class SkladInventOstatok : BaseFragment() {
     private var historyList_data : ArrayList<SkladFragmentHistoryInfo> = ArrayList<SkladFragmentHistoryInfo> ()
 
 
+    override fun onBarcode(barCode: String) {
+        if ( barCode.startsWith(ISKaskadAPP.BARCODE_DATA_KEY_PASP_PLACE)) {
+            val Key_Pasp_Place:String = barCode.replace(ISKaskadAPP.BARCODE_DATA_KEY_PASP_PLACE, "")
+            val KolZag=binding.frInventKolvoZag.text
+            val KolStr=binding.frInventKolvoStr.text
 
+            val  Key_Nacl_Str       = dataItem.getParam("Key_Nacl_Str")
+            val  Key_Nacl_Str_Sost  = dataItem.getParam("Key_Nacl_Str_Sost")
 
-    private val broadCastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(contxt: Context?, intent: Intent?) {
-
-            val barcode = ISKaskadAPP.readBarCode(intent)
-
-            ISKaskadAPP.sendLogMessage(logTAG, "PARSE BARCODE $barcode")
-
-            if ( barcode.startsWith(ISKaskadAPP.BARCODE_DATA_KEY_PASP_PLACE)) {
-                val Key_Pasp_Place:String = barcode.replace(ISKaskadAPP.BARCODE_DATA_KEY_PASP_PLACE, "")
-                val KolZag=binding.frInventKolvoZag.text
-                val KolStr=binding.frInventKolvoStr.text
-
-                val  Key_Nacl_Str       = dataItem.getParam("Key_Nacl_Str")
-                val  Key_Nacl_Str_Sost  = dataItem.getParam("Key_Nacl_Str_Sost")
-
-                if ( Key_Nacl_Str_Sost.ParamIsNull)
-                {
-                    Toast.makeText(context, "01 Инвентаризируем остаток на Месте:$Key_Pasp_Place в количестве=$KolStr", Toast.LENGTH_LONG).show()
-                     AppVM.inventOstatok(Key_Pasp_Place , Key_Nacl_Str.IntVal.toString(), KolStr.toString(), "",  "")
-                }
-                else
-                {
-                    Toast.makeText(context, "01 Инвентаризируем кусочек на Место:$Key_Pasp_Place  в количестве=$KolZag", Toast.LENGTH_LONG).show()
-                    AppVM.inventOstatok(Key_Pasp_Place , Key_Nacl_Str.IntVal.toString(), "", Key_Nacl_Str_Sost.IntVal.toString(),  KolZag.toString())
-                }
-                BindInfo.setViewData(dataItem)
+            if ( Key_Nacl_Str_Sost.ParamIsNull)
+            {
+                Toast.makeText(context, "01 Инвентаризируем остаток на Месте:$Key_Pasp_Place в количестве=$KolStr", Toast.LENGTH_LONG).show()
+                AppVM.inventOstatok(Key_Pasp_Place , Key_Nacl_Str.IntVal.toString(), KolStr.toString(), "",  "")
             }
-            else {
-                Toast.makeText(
-                    context,
-                    "Данный тип штрихкода не поддерживается:'$barcode'",
-                    Toast.LENGTH_LONG
-                ).show()
+            else
+            {
+                Toast.makeText(context, "01 Инвентаризируем кусочек на Место:$Key_Pasp_Place  в количестве=$KolZag", Toast.LENGTH_LONG).show()
+                AppVM.inventOstatok(Key_Pasp_Place , Key_Nacl_Str.IntVal.toString(), "", Key_Nacl_Str_Sost.IntVal.toString(),  KolZag.toString())
             }
-
+            BindInfo.setViewData(dataItem)
         }
+        else {
+            super.onBarcode(barCode)
+        }
+
+
     }
+
+
 
 
     val BindInfo= BindInfoArray (arrayListOf(
@@ -230,37 +215,5 @@ class SkladInventOstatok : BaseFragment() {
 
 
 
-
-
-
-    @SuppressLint("UnspecifiedRegisterReceiverFlag")
-    override fun onResume() {
-        super.onResume()
-        ISKaskadAPP.sendLogMessage(logTAG, "OnResume")
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            requireContext().registerReceiver(
-                broadCastReceiver,
-                IntentFilter(ISKaskadAPP.SCAN_ACTION),
-                Context.RECEIVER_EXPORTED
-            )
-        } else {
-            requireContext().registerReceiver(
-                broadCastReceiver,
-                IntentFilter(ISKaskadAPP.SCAN_ACTION)
-            )
-        }
-    }
-
-    override fun onPause() {
-        ISKaskadAPP.sendLogMessage(logTAG, "OnPause")
-
-        try {
-            requireContext().unregisterReceiver(broadCastReceiver)
-        } catch (e: IllegalArgumentException) {
-            // Receiver не был зарегистрирован или уже удалён
-        }
-       super.onPause()
-    }
 
 }
