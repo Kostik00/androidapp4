@@ -72,6 +72,7 @@
                     android:id="@+id/IdMatDT_Cnt"
                     android:layout_width="147dp"
                     android:layout_height="44dp"
+                    android:autofillHints="# уч. м."
                     android:ems="10"
                     android:enabled="false"
                     android:inputType="number"
