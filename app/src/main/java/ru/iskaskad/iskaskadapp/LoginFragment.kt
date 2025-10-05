@@ -136,7 +136,7 @@ class LoginFragment : Fragment() {
                                 }
                                 R.id.radio_Sklad_outm -> {
                                     findNavController().navigate(
-                                        R.id.nav_home,
+                                        R.id.nav_sklad_om,
                                         null,
                                         NavOptions.Builder()
                                             .setPopUpTo(R.id.nav_login, true)
@@ -156,7 +156,9 @@ class LoginFragment : Fragment() {
                                     )
 
                                 }
-                                else -> { /* ничего не делать */ }
+                                else -> { /* ничего не делать */
+                                    Toast.makeText(requireContext(), "Неизвестный пункт меню", Toast.LENGTH_SHORT).show()
+                                }
                             }
 
                         } else {

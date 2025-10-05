@@ -3,13 +3,11 @@ package ru.iskaskad.iskaskadapp
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
-import android.os.Looper
 import android.view.Menu
 import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -75,7 +73,6 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.nav_login,
-                R.id.nav_home,
                 R.id.nav_mtask,
                 R.id.nav_sklad,
                 R.id.nav_sklad_om,
