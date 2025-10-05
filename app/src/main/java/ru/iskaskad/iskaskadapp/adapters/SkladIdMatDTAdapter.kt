@@ -89,7 +89,7 @@ class SkladIdMatDTAdapter(private val callback:Callback ) : RecyclerView.Adapter
 
 
             binding.IdMatDTCnt.setOnClickListener {
-
+                val adapterPosition = getBindingAdapterPosition()
                 if (adapterPosition != RecyclerView.NO_POSITION)
                 {
                     SaveData()

@@ -41,6 +41,7 @@ class PaspInfoHistoryAdapter(private val callback:Callback ) : RecyclerView.Adap
             super.bind(item)
 
             itemView.setOnClickListener {
+                val adapterPosition = getBindingAdapterPosition()
                 if (adapterPosition != RecyclerView.NO_POSITION)
                 {
                     callback.onItemClicked(items[adapterPosition])

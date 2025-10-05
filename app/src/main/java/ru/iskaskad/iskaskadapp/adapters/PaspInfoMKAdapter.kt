@@ -58,6 +58,7 @@ class PaspInfoMKAdapter(private val callback:Callback ) : RecyclerView.Adapter<P
             }
 
             itemView.setOnClickListener {
+                val adapterPosition = getBindingAdapterPosition()
                 if (adapterPosition != RecyclerView.NO_POSITION)
                 {
                     callback.onItemClicked(items[adapterPosition])
@@ -67,6 +68,7 @@ class PaspInfoMKAdapter(private val callback:Callback ) : RecyclerView.Adapter<P
             SelectedCheckBox.isChecked =   item.IsChecked
 
             SelectedCheckBox.setOnClickListener {
+                val adapterPosition = getBindingAdapterPosition()
                 if (adapterPosition != RecyclerView.NO_POSITION) {
                     items[adapterPosition].IsChecked = SelectedCheckBox.isChecked
                 }

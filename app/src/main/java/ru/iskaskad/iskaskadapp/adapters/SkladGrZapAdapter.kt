@@ -40,6 +40,7 @@ class SkladGrZapAdapter(private val callback:Callback ) : RecyclerView.Adapter<S
             super.bind(item)
 
             itemView.setOnClickListener {
+                val   adapterPosition = getBindingAdapterPosition()
                 if (adapterPosition != RecyclerView.NO_POSITION)
                 {
                     callback.onItemClicked(items[adapterPosition])

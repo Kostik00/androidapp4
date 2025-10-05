@@ -134,7 +134,13 @@ class SkladInventOstatok : BaseFragment() {
 
 
         ParamBundle = requireArguments()
-        dataItem =  (ParamBundle.getSerializable("ItemInfo") as SkladFragmentInfo)
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                dataItem = ParamBundle.getSerializable("ItemInfo", SkladFragmentInfo::class.java)!!
+            }
+            else
+                dataItem =  (ParamBundle.getSerializable("ItemInfo") as SkladFragmentInfo)
+
 
 
         BindInfo.bindToView(binding.root)

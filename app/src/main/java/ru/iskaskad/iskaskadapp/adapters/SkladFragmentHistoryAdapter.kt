@@ -60,6 +60,7 @@ class SkladFragmentHistoryAdapter (private var items: ArrayList<SkladFragmentHis
 
 
             itemView.setOnClickListener {
+                val adapterPosition = getBindingAdapterPosition()
                 if (adapterPosition != RecyclerView.NO_POSITION)
                 {
                     callback.onItemClicked(items[adapterPosition])
