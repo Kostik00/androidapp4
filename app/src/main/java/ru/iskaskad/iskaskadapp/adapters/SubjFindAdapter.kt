@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.iskaskad.iskaskadapp.R
-import ru.iskaskad.iskaskadapp.dto.PaspInfo
 import ru.iskaskad.iskaskadapp.dto.SubjInfo
 
 class SubjFindAdapter(private val callback:Callback ) : RecyclerView.Adapter<SubjFindAdapter.MainHolder>()

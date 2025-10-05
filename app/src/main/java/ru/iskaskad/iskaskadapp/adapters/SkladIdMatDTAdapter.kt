@@ -1,6 +1,5 @@
 package ru.iskaskad.iskaskadapp.adapters
 
-import android.icu.lang.UCharacter
 import android.text.InputFilter
 import android.text.Spanned
 import android.view.LayoutInflater

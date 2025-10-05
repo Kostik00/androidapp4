@@ -123,8 +123,8 @@ class SkladInventOstatok : BaseFragment() {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 dataItem = ParamBundle.getSerializable("ItemInfo", SkladFragmentInfo::class.java)!!
             }
-            else
-                dataItem =  (ParamBundle.getSerializable("ItemInfo") as SkladFragmentInfo)
+//            else
+//                dataItem =  (ParamBundle.getSerializable("ItemInfo") as SkladFragmentInfo)
 
 
 
@@ -182,9 +182,9 @@ class SkladInventOstatok : BaseFragment() {
             binding.FragmentZagotovInfoGr.visibility = View.VISIBLE
         }
 
-        val  Key_Sert  = dataItem.getParam("Key_Sert")
+        val  key_Sert  = dataItem.getParam("Key_Sert")
 
-        if (Key_Sert.ParamIsNull)
+        if (key_Sert.ParamIsNull)
             binding.FragmentSertInfoMaxGr.visibility = View.GONE
         else
             binding.FragmentSertInfoMaxGr.visibility = View.VISIBLE
